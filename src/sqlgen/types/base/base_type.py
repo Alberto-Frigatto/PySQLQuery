@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
-from sqlgen.types.exceptions.base_type import InvalidTypeName, InvalidTypeLenght
+from sqlgen.types.exceptions.base_type import InvalidTypeName, InvalidTypeLength
 
 
 class BaseType(metaclass=ABCMeta):
@@ -22,7 +22,7 @@ class BaseType(metaclass=ABCMeta):
 
     def _validate_length(self, length: int | None) -> None:
         if not self._is_length_valid(length):
-            raise InvalidTypeLenght(self._name)
+            raise InvalidTypeLength(self._name)
 
     def _is_length_valid(self, length: int | None) -> bool:
         return length is None or (isinstance(length, int) and length > 0)

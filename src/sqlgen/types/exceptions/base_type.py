@@ -13,7 +13,7 @@ class InvalidTypeName(SqlBaseTypeException):
         super().__init__(self.MESSAGE)
 
 
-class InvalidTypeLenght(SqlBaseTypeException):
+class InvalidTypeLength(SqlBaseTypeException):
     MESSAGE = 'Tamanho do tipo {type} é inválido'
 
     def __init__(self, type_name: str) -> None:
