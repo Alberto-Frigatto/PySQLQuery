@@ -12,7 +12,12 @@ class Float(BaseDecimalType):
         rendered_value = super().name
 
         if super().length:
-            rendered_value += f'({super().length}, {super().precision})'
+            rendered_value += f'({super().length}'
+
+            if super().precision:
+                rendered_value += f', {super().precision}'
+
+            rendered_value += f')'
 
         return rendered_value
 
