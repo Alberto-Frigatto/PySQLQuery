@@ -2,9 +2,10 @@
 Defines the base exception classes for date SQL type classes
 '''
 
+from abc import ABCMeta
 from .base_type import SqlBaseTypeException
 
-class SqlBaseDateTypeException(SqlBaseTypeException):
+class SqlBaseDateTypeException(SqlBaseTypeException, metaclass=ABCMeta):
     '''
     Abstract base exception class for date SQL type-related exceptions.
     '''
