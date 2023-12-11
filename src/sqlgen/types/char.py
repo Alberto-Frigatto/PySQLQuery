@@ -58,5 +58,22 @@ class Char(BaseType):
         -------
         bool
             True if the value is valid for the CHAR SQL type, False otherwise.
+
+        Examples
+        --------
+        >>> char_type = Char()
+        >>> char_type.validate_value('a')
+        True
+        >>> char_type.validate_value('ab')
+        False
+
+        >>> char_type = Char(3)
+        >>> char_type.validate_value('abc')
+        True
+        >>> char_type.validate_value('abcd')
+        False
+        >>> char_type.validate_value(12)
+        False
         '''
+
         return isinstance(value, str) and len(value) <= (super().length if super().length else 1)
