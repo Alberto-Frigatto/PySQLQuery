@@ -1,10 +1,42 @@
+'''
+Defines the Char class for constructing CHAR SQL type.
+'''
+
 from .base import BaseType
 
 
 class Char(BaseType):
+    '''
+    Represents a CHAR data type in SQL.
+
+    This class inherits from `BaseType` and provides functionality
+    specific to the CHAR data type.
+    '''
+
     _TYPE_NAME = 'char'
 
     def __init__(self, length: int | None = None) -> None:
+        '''
+        Parameters
+        ----------
+        length : int | None
+            The length of CHAR type
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        >>> char_type = Char()
+        >>> print(char_type)
+        CHAR
+
+        >>> char_type = Char(5)
+        >>> print(char_type)
+        CHAR(5)
+        '''
+
         super().__init__(self._TYPE_NAME, length)
 
     def __str__(self) -> str:
@@ -16,4 +48,15 @@ class Char(BaseType):
         return rendered_value
 
     def validate_value(self, value: str) -> bool:
+        '''
+        Parameters
+        ----------
+        value : str
+            The value to be validated.
+
+        Returns
+        -------
+        bool
+            True if the value is valid for the CHAR SQL type, False otherwise.
+        '''
         return isinstance(value, str) and len(value) <= (super().length if super().length else 1)
