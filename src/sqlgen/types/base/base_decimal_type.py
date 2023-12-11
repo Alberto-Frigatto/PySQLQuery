@@ -12,7 +12,8 @@ class BaseDecimalType(BaseType, metaclass=ABCMeta):
     Abstract class for construct decimal SQL type classes.
 
     This class provides the basic structures for construct
-    concrete classes that represents decimal SQL types.
+    concrete classes that represents decimal SQL types or another
+    abstract classes for other kind of decimal SQL types.
 
     This class must be inherited by concrete or another abstract one.
     '''
