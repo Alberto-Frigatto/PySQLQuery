@@ -1,10 +1,36 @@
+'''
+Defines the abstract base class for constructing date SQL type classes.
+'''
+
 import re
 from . import BaseType
 from sqlgen.types.exceptions.base_date_type import InvalidDatePattern
 
 
 class BaseDateType(BaseType):
+    '''
+    Abstract class for construct date SQL type classes.
+
+    This class provides the basic structures for construct
+    concrete classes that represents date SQL types.
+
+    This class must be inherited by concrete or another abstract one.
+    '''
+
     def __init__(self, sql_type_name: str, date_pattern: str) -> None:
+        '''
+        Parameters
+        ----------
+        sql_type_name : str
+            The name of date SQL type.
+        date_pattern : str
+            The pattern of date SQL type.
+
+        Returns
+        -------
+        None
+        '''
+
         super().__init__(sql_type_name, length=None)
 
         self._validate_pattern(date_pattern)
