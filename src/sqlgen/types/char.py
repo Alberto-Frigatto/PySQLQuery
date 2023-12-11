@@ -20,7 +20,7 @@ class Char(BaseType):
         Parameters
         ----------
         length : int | None
-            The length of CHAR type
+            The length of CHAR type (if it isn't passed, will be 1)
 
         Returns
         -------
