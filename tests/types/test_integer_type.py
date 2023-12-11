@@ -36,7 +36,7 @@ class TestInteger:
 
         assert result == expected
 
-    def test_quando_nao_recebe_nada_e_valida_alberto_int_retorna_False(self) -> None:
+    def test_quando_nao_recebe_nada_e_valida_alberto_retorna_False(self) -> None:
         entry = 'alberto'
         int_type = Integer()
         expected = False
@@ -44,7 +44,7 @@ class TestInteger:
 
         assert result == expected
 
-    def test_quando_recebe_2_e_valida_65_retorna_True(self) -> None:
+    def test_quando_recebe_2_e_valida_65_int_retorna_True(self) -> None:
         entry = 65
         int_type = Integer(2)
         expected = True
@@ -60,7 +60,7 @@ class TestInteger:
 
         assert result == expected
 
-    def test_quando_recebe_2_e_valida_350_retorna_False(self) -> None:
+    def test_quando_recebe_2_e_valida_350_int_retorna_False(self) -> None:
         entry = 350
         int_type = Integer(2)
         expected = False
