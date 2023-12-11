@@ -13,7 +13,8 @@ class BaseDateType(BaseType, metaclass=ABCMeta):
     Abstract class for construct date SQL type classes.
 
     This class provides the basic structures for construct
-    concrete classes that represents date SQL types.
+    concrete classes that represents date SQL types or another
+    abstract classes for other kind of date SQL types.
 
     This class must be inherited by concrete or another abstract one.
     '''
