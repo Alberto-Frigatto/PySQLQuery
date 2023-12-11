@@ -12,7 +12,8 @@ class BaseType(metaclass=ABCMeta):
     Abstract class for construct SQL type classes.
 
     This class provides the basic structures for construct
-    concrete classes that represents SQL types.
+    concrete classes that represents SQL types or another
+    abstract classes for other kind of SQL types.
 
     This class must be inherited by concrete or another abstract one.
     '''
