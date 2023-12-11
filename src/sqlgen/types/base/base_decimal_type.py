@@ -1,10 +1,38 @@
+'''
+Defines the abstract base class for constructing decimal SQL type classes.
+'''
+
 from typing import Any
 from . import BaseType
 from sqlgen.types.exceptions.base_decimal_type import InvalidPrecision
 
 
 class BaseDecimalType(BaseType):
+    '''
+    Abstract class for construct decimal SQL type classes.
+
+    This class provides the basic structures for construct
+    concrete classes that represents decimal SQL types.
+
+    This class must be inherited by concrete or another abstract one.
+    '''
+
     def __init__(self, sql_type_name: str, length: int | None, precision: int | None) -> None:
+        '''
+        Parameters
+        ----------
+        sql_type_name : str
+            The name of decimal SQL type.
+        length : int | None
+            The length of decimal SQL type.
+        precision : int | None
+            The precision of decimal SQL type (if passed it must be lower than length).
+
+        Returns
+        -------
+        None
+        '''
+
         super().__init__(sql_type_name, length)
 
         self._validate_precision(precision)
