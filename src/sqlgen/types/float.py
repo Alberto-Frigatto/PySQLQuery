@@ -14,7 +14,7 @@ class Float(BaseDecimalType):
         if super().length:
             rendered_value += f'({super().length}'
 
-            if super().precision:
+            if super().precision is not None:
                 rendered_value += f', {super().precision}'
 
             rendered_value += f')'
