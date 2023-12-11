@@ -15,9 +15,9 @@ class BaseDecimalType(BaseType):
             raise InvalidPrecision(super().name)
 
     def _is_precision_valid(self, precision: int) -> bool:
-        return (not super().length and not precision) or \
+        return (not super().length and precision is None) or \
             (super().length and not precision) or \
-            (isinstance(precision, int) and precision >= 0 and precision < super().length)
+            (super().length and isinstance(precision, int) and precision >= 0 and precision < super().length)
 
     def _is_length_valid(self, length: int) -> bool:
         return length is None or (isinstance(length, int) and length > 0)
