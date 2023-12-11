@@ -2,9 +2,10 @@
 Defines the base exception classes for decimal SQL type classes
 '''
 
+from abc import ABCMeta
 from .base_type import SqlBaseTypeException
 
-class SqlBaseDecimalTypeException(SqlBaseTypeException):
+class SqlBaseDecimalTypeException(SqlBaseTypeException, metaclass=ABCMeta):
     '''
     Abstract base exception class for decimal SQL type-related exceptions.
     '''
