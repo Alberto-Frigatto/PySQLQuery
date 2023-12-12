@@ -1,4 +1,4 @@
-from src.sqlquerybuilder.types import DateTime
+from src.pysqlquery.types import DateTime
 
 
 class TestDateTime:

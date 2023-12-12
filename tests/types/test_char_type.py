@@ -1,5 +1,5 @@
 import pytest
-from src.sqlquerybuilder.types import Char
+from src.pysqlquery.types import Char
 
 
 class TestChar:
