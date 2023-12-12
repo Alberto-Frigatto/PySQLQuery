@@ -1,4 +1,4 @@
-from sqlgen.types import Date
+from src.sqlquerybuilder.types import Date
 
 
 class TestDate:

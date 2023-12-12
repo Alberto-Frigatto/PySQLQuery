@@ -1,5 +1,5 @@
 import pytest
-from src.sqlgen.types import String
+from src.sqlquerybuilder.types import String
 
 
 class TestString:

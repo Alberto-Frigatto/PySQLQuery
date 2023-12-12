@@ -1,5 +1,5 @@
 import pytest
-from src.sqlgen.types import Float
+from src.sqlquerybuilder.types import Float
 
 
 class TestFloat:

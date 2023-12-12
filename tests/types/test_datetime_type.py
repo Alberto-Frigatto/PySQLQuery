@@ -1,4 +1,4 @@
-from sqlgen.types import DateTime
+from src.sqlquerybuilder.types import DateTime
 
 
 class TestDateTime:

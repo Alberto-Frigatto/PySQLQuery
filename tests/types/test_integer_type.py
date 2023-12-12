@@ -1,5 +1,5 @@
 import pytest
-from sqlgen.types import Integer
+from src.sqlquerybuilder.types import Integer
 
 
 class TestInteger:
