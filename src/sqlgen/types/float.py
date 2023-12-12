@@ -1,11 +1,49 @@
+'''
+Defines the Float class for constructing FLOAT SQL type.
+'''
+
 from typing import Any
 from .base import BaseDecimalType
 
 
 class Float(BaseDecimalType):
+    '''
+    Represents a FLOAT data type in SQL.
+
+    This class inherits from `BaseDecimalType` and provides functionality
+    specific to the FLOAT data type.
+    '''
+
     _TYPE_NAME = 'float'
 
     def __init__(self, length: int | None = None, precision: int | None = None) -> None:
+        '''
+        Parameters
+        ----------
+        length : int | None
+            The length of FLOAT type.
+        precision : int | None
+            The precision of FLOAT type (if passed it must be lower than length).
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        >>> float_type = Float()
+        >>> print(float_type)
+        FLOAT
+
+        >>> float_type = Float(6)
+        >>> print(float_type)
+        FLOAT(6)
+
+        >>> float_type = Float(6, 2)
+        >>> print(float_type)
+        FLOAT(6, 2)
+        '''
+
         super().__init__(self._TYPE_NAME, length, precision)
 
     def __str__(self) -> str:
@@ -22,6 +60,42 @@ class Float(BaseDecimalType):
         return rendered_value
 
     def validate_value(self, value: float | int) -> bool:
+        '''
+        Parameters
+        ----------
+        value : float | int
+            The value to be validated.
+
+        Returns
+        -------
+        bool
+            True if the value is valid for the FLOAT SQL type, False otherwise.
+
+        Examples
+        --------
+        >>> float_type = Float()
+        >>> float_type.validate_value(10)
+        True
+        >>> float_type.validate_value(10.5)
+        True
+
+        >>> float_type = Float(2)
+        >>> float_type.validate_value(10)
+        True
+        >>> float_type.validate_value(100)
+        False
+
+        >>> float_type = Float(3, 1)
+        >>> float_type.validate_value(10)
+        True
+        >>> float_type.validate_value(100)
+        True
+        >>> float_type.validate_value(10.5)
+        True
+        >>> float_type.validate_value(1.55)
+        False
+        '''
+
         if not self._is_number(value):
             return False
 
