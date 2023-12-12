@@ -5,7 +5,7 @@ Defines the abstract base class for constructing date SQL type classes.
 from abc import ABCMeta
 import re
 from . import BaseType
-from sqlgen.types.exceptions.base_date_type import InvalidDatePattern
+from sqlquerybuilder.types.exceptions.base_date_type import InvalidDatePattern
 
 
 class BaseDateType(BaseType, metaclass=ABCMeta):

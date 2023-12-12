@@ -4,7 +4,7 @@ Defines the abstract base class for constructing SQL type classes.
 
 from abc import ABCMeta, abstractmethod
 from typing import Any
-from sqlgen.types.exceptions.base_type import InvalidTypeName, InvalidTypeLength
+from sqlquerybuilder.types.exceptions.base_type import InvalidTypeName, InvalidTypeLength
 
 
 class BaseType(metaclass=ABCMeta):
