@@ -3,9 +3,9 @@ Defines the base exception classes for decimal SQL type classes
 '''
 
 from abc import ABCMeta
-from .base_type import SqlBaseTypeException
+from .sql_type import SQLTypeException
 
-class SqlBaseDecimalTypeException(SqlBaseTypeException, metaclass=ABCMeta):
+class SQLDecimalTypeException(SQLTypeException, metaclass=ABCMeta):
     '''
     Abstract base exception class for decimal SQL type-related exceptions.
     '''
@@ -14,7 +14,7 @@ class SqlBaseDecimalTypeException(SqlBaseTypeException, metaclass=ABCMeta):
         super().__init__(message)
 
 
-class InvalidPrecision(SqlBaseTypeException):
+class InvalidPrecision(SQLTypeException):
     '''
     Exception raised for an invalid decimal SQL type precision.
     '''
