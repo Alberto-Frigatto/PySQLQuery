@@ -4,15 +4,15 @@ Defines the abstract base class for constructing date SQL type classes.
 
 from abc import ABCMeta
 import re
-from . import BaseType
-from pysqlquery.types.exceptions.base_date_type import InvalidDatePattern
+from . import SQLType
+from pysqlquery.types.exceptions.sql_date_type import InvalidDatePattern
 
 
-class BaseDateType(BaseType, metaclass=ABCMeta):
+class SQLDateType(SQLType, metaclass=ABCMeta):
     '''
     Abstract class for construct date SQL type classes.
 
-    This class inherits from `BaseType` and provides the basic structures for construct
+    This class inherits from `SQLType` and provides the basic structures for construct
     concrete classes that represents date SQL types or another
     abstract classes for other kind of date SQL types.
 
