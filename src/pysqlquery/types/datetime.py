@@ -2,15 +2,15 @@
 Defines the Date class for constructing DATETIME SQL type.
 '''
 
-from .base import BaseDateType
+from .base import SQLDateType
 from datetime import datetime
 
 
-class DateTime(BaseDateType):
+class DateTime(SQLDateType):
     '''
     Represents a DATETIME data type in SQL.
 
-    This class inherits from `BaseDateType` and provides functionality
+    This class inherits from `SQLDateType` and provides functionality
     specific to the DATETIME data type in `yyyy-mm-dd HH-MM-ss` pattern.
     '''
 
