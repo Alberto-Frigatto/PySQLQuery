@@ -3,14 +3,14 @@ Defines the Float class for constructing FLOAT SQL type.
 '''
 
 from typing import Any
-from .base import BaseDecimalType
+from .base import SQLDecimalType
 
 
-class Float(BaseDecimalType):
+class Float(SQLDecimalType):
     '''
     Represents a FLOAT data type in SQL.
 
-    This class inherits from `BaseDecimalType` and provides functionality
+    This class inherits from `SQLDecimalType` and provides functionality
     specific to the FLOAT data type.
     '''
 
