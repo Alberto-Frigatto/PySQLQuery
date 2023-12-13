@@ -5,7 +5,7 @@ Defines the base exception classes for SQL type classes
 from abc import ABCMeta
 
 
-class SqlBaseTypeException(Exception, metaclass=ABCMeta):
+class SQLTypeException(Exception, metaclass=ABCMeta):
     '''
     Abstract base exception class for SQL type-related exceptions.
     '''
@@ -14,7 +14,7 @@ class SqlBaseTypeException(Exception, metaclass=ABCMeta):
         super().__init__(message)
 
 
-class InvalidTypeName(SqlBaseTypeException):
+class InvalidTypeName(SQLTypeException):
     '''
     Exception raised for an invalid SQL type name.
     '''
@@ -25,7 +25,7 @@ class InvalidTypeName(SqlBaseTypeException):
         super().__init__(self.MESSAGE)
 
 
-class InvalidTypeLength(SqlBaseTypeException):
+class InvalidTypeLength(SQLTypeException):
     '''
     Exception raised for an invalid SQL type length.
     '''
@@ -47,7 +47,7 @@ class InvalidTypeLength(SqlBaseTypeException):
         super().__init__(self.MESSAGE.format(type=type_name))
 
 
-class InvalidValue(SqlBaseTypeException):
+class InvalidValue(SQLTypeException):
     '''
     Exception raised for an invalid SQL type value.
     '''
