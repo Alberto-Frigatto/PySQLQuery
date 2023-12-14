@@ -2,14 +2,14 @@
 Defines the Char class for constructing CHAR SQL type.
 '''
 
-from .base import SQLType
+from .base import SQLTextType
 
 
-class Char(SQLType):
+class Char(SQLTextType):
     '''
     Represents a CHAR data type in SQL.
 
-    This class inherits from `SQLType` and provides functionality
+    This class inherits from `SQLTextType` and provides functionality
     specific to the CHAR data type.
     '''
 
