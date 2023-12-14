@@ -2,14 +2,14 @@
 Defines the String class for constructing VARCHAR SQL type.
 '''
 
-from .base import SQLType
+from .base import SQLTextType
 
 
-class String(SQLType):
+class String(SQLTextType):
     '''
     Represents a VARCHAR data type in SQL.
 
-    This class inherits from `SQLType` and provides functionality
+    This class inherits from `SQLTextType` and provides functionality
     specific to the VARCHAR data type.
     '''
 
