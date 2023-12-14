@@ -2,14 +2,14 @@
 Defines the Integer class for constructing INTEGER SQL type.
 '''
 
-from .base import SQLType
+from .base import SQLIntType
 
 
-class Integer(SQLType):
+class Integer(SQLIntType):
     '''
     Represents a INTEGER data type in SQL.
 
-    This class inherits from `SQLType` and provides functionality
+    This class inherits from `SQLIntType` and provides functionality
     specific to the INTEGER data type.
     '''
 
