@@ -25,27 +25,6 @@ class InvalidTypeName(SQLTypeException):
         super().__init__(self.MESSAGE)
 
 
-class InvalidTypeLength(SQLTypeException):
-    '''
-    Exception raised for an invalid SQL type length.
-    '''
-
-    MESSAGE = 'Tamanho do tipo {type} é inválido'
-
-    def __init__(self, type_name: str) -> None:
-        '''
-        Parameters
-        ----------
-        type_name : str
-            The name of SQL type.
-
-        Returns
-        -------
-        None
-        '''
-
-        super().__init__(self.MESSAGE.format(type=type_name))
-
 
 class InvalidValue(SQLTypeException):
     '''
