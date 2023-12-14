@@ -3,15 +3,15 @@ Defines the abstract base class for constructing decimal SQL type classes.
 '''
 
 from abc import ABCMeta
-from . import SQLType
+from .sql_num_type import SQLNumType
 from pysqlquery.types.exceptions.sql_decimal_type import InvalidPrecision
 
 
-class SQLDecimalType(SQLType, metaclass=ABCMeta):
+class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
     '''
     Abstract class for construct decimal SQL type classes.
 
-    This class inherits from `SQLType` and provides the basic structures for construct
+    This class inherits from `SQLNumType` and provides the basic structures for construct
     concrete classes that represents decimal SQL types or another
     abstract classes for other kind of decimal SQL types.
 
@@ -37,7 +37,7 @@ class SQLDecimalType(SQLType, metaclass=ABCMeta):
         super().__init__(sql_type_name, length)
 
         self._validate_precision(precision)
-        self._precision = precision
+        self._precision: int | None = precision
 
     def _validate_precision(self, precision: int) -> None:
         if not self._is_precision_valid(precision):
