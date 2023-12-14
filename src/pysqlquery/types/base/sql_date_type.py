@@ -33,10 +33,10 @@ class SQLDateType(SQLType, metaclass=ABCMeta):
         None
         '''
 
-        super().__init__(sql_type_name, length=None)
+        super().__init__(sql_type_name)
 
         self._validate_pattern(date_pattern)
-        self._pattern = self._format_pattern(date_pattern)
+        self._pattern: str = self._format_pattern(date_pattern)
 
     def _validate_pattern(self, pattern: str) -> None:
         if not self._is_pattern_valid(pattern):
