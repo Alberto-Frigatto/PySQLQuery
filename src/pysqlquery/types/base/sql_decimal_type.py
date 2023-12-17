@@ -4,7 +4,7 @@ Defines the abstract base class for constructing decimal SQL type classes.
 
 from abc import ABCMeta
 from .sql_num_type import SQLNumType
-from pysqlquery.types.exceptions.sql_decimal_type import InvalidPrecision
+from ..exceptions.sql_decimal_type import InvalidPrecision
 
 
 class SQLDecimalType(SQLNumType, metaclass=ABCMeta):

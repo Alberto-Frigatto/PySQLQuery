@@ -4,7 +4,7 @@ Defines the abstract base class for constructing abstract SQL type classes.
 
 from abc import ABCMeta, abstractmethod
 from typing import Any
-from pysqlquery.types.exceptions.sql_type import InvalidTypeName
+from ..exceptions.sql_type import InvalidTypeName
 
 
 class SQLType(metaclass=ABCMeta):

@@ -3,7 +3,7 @@ Defines the abstract base class for constructing sized SQL type classes like tex
 '''
 
 from abc import ABCMeta
-from pysqlquery.types.exceptions.sized_sql_type import InvalidTypeLength
+from ..exceptions.sized_sql_type import InvalidTypeLength
 from .sql_type import SQLType
 
 
