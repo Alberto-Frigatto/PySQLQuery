@@ -3,6 +3,7 @@ Defines the base exception classes for SQL type classes
 '''
 
 from abc import ABCMeta
+from typing import Any
 
 
 class SQLTypeException(Exception, metaclass=ABCMeta):
@@ -21,7 +22,7 @@ class InvalidTypeName(SQLTypeException):
 
     MESSAGE = 'The given value is an invalid SQL type name: {name!r}'
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: Any) -> None:
         '''
         Parameters
         ----------
