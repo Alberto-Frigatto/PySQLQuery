@@ -38,7 +38,7 @@ class SizedSQLType(SQLType, metaclass=ABCMeta):
 
     def _validate_length(self, length: int | None) -> None:
         if not self._is_length_valid(length):
-            raise InvalidTypeLength(super().name)
+            raise InvalidTypeLength(super().name, length)
 
     def _is_length_valid(self, length: int | None) -> bool:
         return length is None or (isinstance(length, int) and length > 0)
