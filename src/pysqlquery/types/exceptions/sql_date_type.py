@@ -3,6 +3,7 @@ Defines the base exception classes for date SQL type classes
 '''
 
 from abc import ABCMeta
+from typing import Any
 from .sql_type import SQLTypeException
 
 class SQLDateTypeException(SQLTypeException, metaclass=ABCMeta):
@@ -21,7 +22,7 @@ class InvalidDatePattern(SQLTypeException):
 
     MESSAGE = 'The given date pattern for the {type} type is invalid: {pattern!r}'
 
-    def __init__(self, type_name: str, date_pattern: str) -> None:
+    def __init__(self, type_name: str, date_pattern: Any) -> None:
         '''
         Parameters
         ----------
