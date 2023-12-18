@@ -32,17 +32,17 @@ class SQLType(metaclass=ABCMeta):
         super().__init__()
 
         self._validate_name(sql_type_name)
-        self._name: str = self._format_type_name(sql_type_name)
+        self._name: str = self._format_name(sql_type_name)
 
-    def _validate_name(self, type: str) -> None:
-        if not self._is_name_valid(type):
+    def _validate_name(self, name: str) -> None:
+        if not self._is_name_valid(name):
             raise InvalidTypeName()
 
-    def _is_name_valid(self, type: str) -> bool:
-        return isinstance(type, str) and len(type)
+    def _is_name_valid(self, name: str) -> bool:
+        return isinstance(name, str) and len(name)
 
-    def _format_type_name(self, type: str) -> str:
-        return type.strip().upper()
+    def _format_name(self, name: str) -> str:
+        return name.strip().upper()
 
     @abstractmethod
     def __str__(self) -> str:
