@@ -40,7 +40,7 @@ class SQLDateType(SQLType, metaclass=ABCMeta):
 
     def _validate_pattern(self, pattern: str) -> None:
         if not self._is_pattern_valid(pattern):
-            raise InvalidDatePattern(super().name)
+            raise InvalidDatePattern(super().name, pattern)
 
     def _is_pattern_valid(self, pattern: str) -> bool:
         return isinstance(pattern, str) and len(pattern) and re.search(r'%\w', pattern)
