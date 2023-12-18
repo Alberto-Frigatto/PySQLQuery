@@ -41,7 +41,7 @@ class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
 
     def _validate_precision(self, precision: int) -> None:
         if not self._is_precision_valid(precision):
-            raise InvalidPrecision(super().name)
+            raise InvalidPrecision(super().name, precision)
 
     def _is_precision_valid(self, precision: int) -> bool:
         return (not super().length and precision is None) or \
