@@ -22,4 +22,15 @@ class InvalidTypeName(SQLTypeException):
     MESSAGE = 'The given value is an invalid SQL type name: {name!r}'
 
     def __init__(self, name: str) -> None:
+        '''
+        Parameters
+        ----------
+        name : str
+            The invalid name of SQL type.
+
+        Returns
+        -------
+        None
+        '''
+
         super().__init__(self.MESSAGE.format(name=name))
