@@ -19,30 +19,7 @@ class InvalidTypeName(SQLTypeException):
     Exception raised for an invalid SQL type name.
     '''
 
-    MESSAGE = 'Nome de tipo inválido'
+    MESSAGE = 'The given value is an invalid SQL type name: {name!r}'
 
-    def __init__(self) -> None:
-        super().__init__(self.MESSAGE)
-
-
-
-class InvalidValue(SQLTypeException):
-    '''
-    Exception raised for an invalid SQL type value.
-    '''
-
-    MESSAGE = 'O valor para o campo {type} é inválido'
-
-    def __init__(self, type_name: str) -> None:
-        '''
-        Parameters
-        ----------
-        type_name : str
-            The name of SQL type.
-
-        Returns
-        -------
-        None
-        '''
-
-        super().__init__(self.MESSAGE.format(type=type_name))
+    def __init__(self, name: str) -> None:
+        super().__init__(self.MESSAGE.format(name=name))
