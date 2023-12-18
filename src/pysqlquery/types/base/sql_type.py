@@ -36,7 +36,7 @@ class SQLType(metaclass=ABCMeta):
 
     def _validate_name(self, name: str) -> None:
         if not self._is_name_valid(name):
-            raise InvalidTypeName()
+            raise InvalidTypeName(name)
 
     def _is_name_valid(self, name: str) -> bool:
         return isinstance(name, str) and len(name)
