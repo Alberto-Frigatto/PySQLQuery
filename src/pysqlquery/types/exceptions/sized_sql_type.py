@@ -1,3 +1,7 @@
+'''
+Defines the base exception classes for sized SQL type classes
+'''
+
 from abc import ABCMeta
 from typing import Any
 from .sql_type import SQLTypeException
