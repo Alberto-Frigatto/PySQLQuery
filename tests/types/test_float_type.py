@@ -1,5 +1,7 @@
 import pytest
 from src.pysqlquery.types import Float
+from src.pysqlquery.types.exceptions.sized_sql_type import InvalidTypeLength
+from src.pysqlquery.types.exceptions.sql_decimal_type import InvalidPrecision
 
 
 class TestFloat:
@@ -27,28 +29,28 @@ class TestFloat:
 
         assert result == expected
 
-    def test_quando_recebe_length_aaa_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_length_aaa_lanca_InvalidTypeLength(self) -> None:
+        with pytest.raises(InvalidTypeLength):
             entry = 'aaa'
             Float(entry)
 
-    def test_quando_recebe_length_0_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_length_0_lanca_InvalidTypeLength(self) -> None:
+        with pytest.raises(InvalidTypeLength):
             entry = 0
             Float(entry)
 
-    def test_quando_recebe_precision_aaa_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_precision_aaa_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry = 'aaa'
             Float(precision=entry)
 
-    def test_quando_recebe_precision_0_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_precision_0_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry = 0
             Float(precision=entry)
 
-    def test_quando_recebe_precision_4_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_precision_4_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry = 4
             Float(precision=entry)
 
@@ -61,14 +63,14 @@ class TestFloat:
 
         assert result == expected
 
-    def test_quando_recebe_length_4_e_precision_4_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_length_4_e_precision_4_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry_length = 4
             entry_precision = 4
             Float(entry_length, entry_precision)
 
-    def test_quando_recebe_length_4_e_precision_aaa_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_length_4_e_precision_aaa_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry_length = 4
             entry_precision = 'aaa'
             Float(entry_length, entry_precision)
