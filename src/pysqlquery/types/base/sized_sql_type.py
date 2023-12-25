@@ -44,5 +44,5 @@ class SizedSQLType(SQLType, metaclass=ABCMeta):
         return length is None or (isinstance(length, int) and length > 0)
 
     @property
-    def length(self) -> int:
+    def length(self) -> int | None:
         return self._length
