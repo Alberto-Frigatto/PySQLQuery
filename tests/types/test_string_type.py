@@ -1,5 +1,6 @@
 import pytest
 from src.pysqlquery.types import String
+from src.pysqlquery.types.exceptions.sized_sql_type import InvalidTypeLength
 
 
 class TestString:
@@ -18,13 +19,13 @@ class TestString:
 
         assert result == expected
 
-    def test_quando_recebe_aaa_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_aaa_lanca_InvalidTypeLength(self) -> None:
+        with pytest.raises(InvalidTypeLength):
             entry = 'aaa'
             String(entry)
 
-    def test_quando_recebe_0_lanca_exception(self) -> None:
-        with pytest.raises(Exception):
+    def test_quando_recebe_0_lanca_InvalidTypeLength(self) -> None:
+        with pytest.raises(InvalidTypeLength):
             entry = 0
             String(entry)
 
