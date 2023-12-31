@@ -15,7 +15,7 @@ class SQLDateTypeException(SQLTypeException, metaclass=ABCMeta):
         super().__init__(message)
 
 
-class InvalidDatePattern(SQLTypeException):
+class InvalidDatePattern(SQLDateTypeException):
     '''
     Exception raised for an invalid date SQL type pattern.
     '''
