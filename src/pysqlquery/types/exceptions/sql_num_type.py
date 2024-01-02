@@ -1,5 +1,5 @@
 '''
-Defines the base exception class for numeric SQL type classes
+Defines the base exception class for numeric SQL type classes.
 '''
 
 from abc import ABCMeta

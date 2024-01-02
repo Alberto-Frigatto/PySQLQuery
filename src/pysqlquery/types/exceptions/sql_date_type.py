@@ -1,5 +1,5 @@
 '''
-Defines the base exception classes for date SQL type classes
+Defines the base exception classes for date SQL type classes.
 '''
 
 from abc import ABCMeta
@@ -28,7 +28,7 @@ class InvalidDatePattern(SQLDateTypeException):
         ----------
         type_name : str
             The name of SQL type.
-        pattern : str
+        pattern : Any
             The date pattern of date SQL type.
 
         Returns

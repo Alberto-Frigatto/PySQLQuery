@@ -1,5 +1,5 @@
 '''
-Defines the base exception classes for SQL type classes
+Defines the base exception classes for SQL type classes.
 '''
 
 from abc import ABCMeta
@@ -26,7 +26,7 @@ class InvalidTypeName(SQLTypeException):
         '''
         Parameters
         ----------
-        name : str
+        name : Any
             The invalid name of SQL type.
 
         Returns
