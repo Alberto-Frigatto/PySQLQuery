@@ -11,7 +11,7 @@ class SizedSQLType(SQLType, metaclass=ABCMeta):
     '''
     Abstract class for construct abstract sized SQL type classes.
 
-    This class provides the basic structures for construct
+    This class inherits from `SQLType` and provides the basic structures for construct
     abstract classes for kind of sized SQL types like text types and numeric types.
 
     This class must be inherited by abstract one.
