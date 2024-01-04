@@ -92,10 +92,6 @@ class ForeignKey(UnnamedConstraint):
         return self._ref_column
 
     @property
-    def reference(self) -> str:
-        return f'{self.ref_table}.{self.ref_column}'
-
-    @property
     def on_delete(self) -> str | None:
         return self._on_delete
 
