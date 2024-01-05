@@ -1,3 +1,7 @@
+'''
+Defines the ForeignKeyConstraint class for constructing named FOREIGN KEY SQL constraint.
+'''
+
 import re
 from typing import Literal
 from ..base import MultiColumnNamedConstraint
@@ -14,6 +18,13 @@ from ..exceptions.named_foreign_key import (
 
 
 class ForeignKeyConstraint(MultiColumnNamedConstraint):
+    '''
+    Represents a named FOREIGN KEY constraint in SQL.
+
+    This class inherits from `MultiColumnNamedConstraint` and provides functionality
+    specific to the named FOREIGN KEY constraint.
+    '''
+
     def __init__(
         self,
         name: str,
@@ -24,6 +35,41 @@ class ForeignKeyConstraint(MultiColumnNamedConstraint):
         on_delete: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None,
         on_update: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None
     ) -> None:
+        '''
+        Parameters
+        ----------
+        name : str
+            The constraint's name.
+        column : str | list[str]
+            The column's name(s) that this constraint belongs to.
+        ref_table : str
+            The referenced table.
+        ref_column : str | list[str]
+            The referenced column name(s) (this must be the same type than column parameter).
+        on_delete : str | None
+            The ON DELETE clause.
+        on_update : str | None
+            The ON UPDATE clause.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', 'fk_col', 'other_table', 'id')
+        >>> print(fk_const)
+        CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
+        >>>
+        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', 'fk_col', 'other_table', 'id', on_delete='cascade', on_update='no action')
+        >>> print(fk_const)
+        CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id) ON DELETE CASCADE ON UPDATE NO ACTION
+        >>>
+        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', ['fk_col_1', 'fk_col_2'], 'other_table', ['id_1', 'id_2'])
+        >>> print(fk_const)
+        CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col_1, fk_col_2) REFERENCES OTHER_TABLE(id_1, id_2)
+        '''
+
         super().__init__(name, column)
 
         self._validate_ref_table(ref_table)
