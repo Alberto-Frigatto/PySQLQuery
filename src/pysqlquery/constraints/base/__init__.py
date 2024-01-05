@@ -1,3 +1,7 @@
+'''
+Package for abstract SQL constraint base classes.
+'''
+
 from .constraint import Constraint
 from .unnamed_constraint import UnnamedConstraint
 from .named_constraint import NamedConstraint
