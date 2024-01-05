@@ -1,5 +1,5 @@
 '''
-Defines the Date class for constructing DATETIME SQL type.
+Defines the DateTime class for constructing DATETIME SQL type.
 '''
 
 from .base import SQLDateType
