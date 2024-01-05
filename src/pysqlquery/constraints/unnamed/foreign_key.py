@@ -1,3 +1,7 @@
+'''
+Defines the ForeignKey class for constructing unnamed FOREIGN KEY SQL constraint.
+'''
+
 import re
 from typing import Literal
 from ..base import UnnamedConstraint
@@ -11,6 +15,15 @@ from ..exceptions.unnamed_foreign_key import (
 
 
 class ForeignKey(UnnamedConstraint):
+    '''
+    Represents a unnamed FOREIGN KEY constraint in SQL.
+
+    This class must be used in a table's column.
+
+    This class inherits from `UnnamedConstraint` and provides functionality
+    specific to the unnamed FOREIGN KEY constraint.
+    '''
+
     def __init__(
             self,
             ref_table: str,
@@ -19,6 +32,39 @@ class ForeignKey(UnnamedConstraint):
             on_delete: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None,
             on_update: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None
         ) -> None:
+        '''
+        Parameters
+        ----------
+        ref_table : str
+            The referenced table.
+        ref_column : str
+            The referenced column name.
+        on_delete : str | None
+            The ON DELETE clause.
+        on_update : str | None
+            The ON UPDATE clause.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        >>> class MyTable(Table):
+        >>> ... fk_col = Column(Integer, ForeignKey('other_table', 'id'))
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table.fk_col.foreign_key)
+        >>> FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
+        >>>
+        >>> class MyTable(Table):
+        >>> ... fk_col = Column(Integer, ForeignKey('other_table', 'id', on_delete='cascade', on_update='no action'))
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table.fk_col.foreign_key)
+        >>> FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id) ON DELETE CASCADE ON UPDATE NO ACTION
+        '''
+
         self._validate_ref_table(ref_table)
         self._ref_table: str = ref_table.strip().lower()
 
