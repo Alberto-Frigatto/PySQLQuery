@@ -1,3 +1,7 @@
+'''
+Defines the abstract base class for constructing named SQL constraint classes.
+'''
+
 from abc import ABCMeta
 import re
 from .constraint import Constraint
@@ -5,7 +9,27 @@ from ..exceptions.named_constraint import InvalidConstraintName
 
 
 class NamedConstraint(Constraint, metaclass=ABCMeta):
+    '''
+    Abstract class for construct named SQL constraint classes.
+
+    This class inherits from `Constraint` and provides the basic structures for construct
+    abstract classes for kind of named SQL constraints.
+
+    This class must be inherited by abstract one.
+    '''
+
     def __init__(self, name: str) -> None:
+        '''
+        Parameters
+        ----------
+        name : str
+            The constraint's name.
+
+        Returns
+        -------
+        None
+        '''
+
         super().__init__()
         self._validate_name(name)
         self._name: str = name.lower()
