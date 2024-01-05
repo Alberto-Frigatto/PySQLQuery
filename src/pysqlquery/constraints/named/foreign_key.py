@@ -21,6 +21,8 @@ class ForeignKeyConstraint(MultiColumnNamedConstraint):
     '''
     Represents a named FOREIGN KEY constraint in SQL.
 
+    This class can be used in table's __constraints__ list.
+
     This class inherits from `MultiColumnNamedConstraint` and provides functionality
     specific to the named FOREIGN KEY constraint.
     '''
@@ -68,6 +70,14 @@ class ForeignKeyConstraint(MultiColumnNamedConstraint):
         >>> fk_const = ForeignKeyConstraint('fk_table_other_table', ['fk_col_1', 'fk_col_2'], 'other_table', ['id_1', 'id_2'])
         >>> print(fk_const)
         CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col_1, fk_col_2) REFERENCES OTHER_TABLE(id_1, id_2)
+        >>>
+        >>> class MyTable(Table):
+        >>> ... fk_col = Column(Integer)
+        >>> ... __constraints__ = [ForeignKeyConstraint('fk_my_table_other_table', 'fk_col', 'other_table', 'id')]
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table.id.foreign_key)
+        >>> CONSTRAINT fk_my_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
         '''
 
         super().__init__(name, column)
