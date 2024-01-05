@@ -1,3 +1,7 @@
+'''
+Defines the abstract base class for constructing multi column named SQL constraint classes.
+'''
+
 from abc import ABCMeta
 import re
 from .named_constraint import NamedConstraint
@@ -6,7 +10,30 @@ from ..exceptions.named_constraint import InvalidColumnName
 
 
 class MultiColumnNamedConstraint(NamedConstraint, metaclass=ABCMeta):
+    '''
+    Abstract class for construct multi column named SQL constraint classes.
+
+    This class inherits from `NamedConstraint` and provides the basic structures for construct
+    concrete classes that represents multi column named SQL constraints or another
+    abstract classes for other kind of multi column named SQL constraints.
+
+    This class must be inherited by concrete or another abstract one.
+    '''
+
     def __init__(self, name: str, column: str | list[str]) -> None:
+        '''
+        Parameters
+        ----------
+        name : str
+            The constraint's name.
+        column : str | list[str]
+            The column's name(s) that this constraint belongs to.
+
+        Returns
+        -------
+        None
+        '''
+
         super().__init__(name)
         self._validate_column(column)
         self._column: str | list[str] = self._handle_column(column)
