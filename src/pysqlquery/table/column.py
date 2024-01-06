@@ -23,7 +23,7 @@ class Column:
             foreign_key: ForeignKey | None = None,
             *,
             primary_key: bool = False,
-            auto_increment: Literal['mssql', 'mysql', 'sqlite', 'postgree'] = None,
+            auto_increment: Literal['mssql', 'mysql', 'sqlite', 'postgree'] | None = None,
             nullable: bool = False,
             unique: bool = False,
             default: Any = None
