@@ -183,10 +183,10 @@ class Column:
         self._named_unique = True
 
     def is_primary_key_named(self) -> bool:
-        return self._named_primary_key
+        return bool(self._named_primary_key)
 
     def is_foreign_key_named(self) -> bool:
-        return self._named_foreign_key
+        return bool(self._named_foreign_key)
 
     @property
     def name(self) -> str:
