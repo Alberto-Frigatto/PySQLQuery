@@ -1,5 +1,4 @@
 import re
-
 from ..constraints.base.named_constraint import NamedConstraint
 from ..constraints import (
     PrimaryKeyConstraint,
@@ -13,25 +12,28 @@ from .exceptions.table import (
     InvalidNamedConstraint,
     InvalidConstraintList,
     MultiplePrimaryKeyConstraints,
-    InvalidTestValue
+    InvalidTestValue,
+    InvalidCreateIfNotExistsValue
 )
 
 
 class Table(metaclass=TableMeta):
     __tablename__: str | None = None
     __constraints__: list[NamedConstraint] = None
-    __test__: bool = False
 
     _tables: list['Table'] = []
 
-    def __init__(self):
+    def __init__(self, *, create_if_not_exists: bool = False, test: bool = False):
         if self.__tablename__ is not None:
             self._validate_name(self.__tablename__)
 
-        self._name: str = self.__tablename__ if self.__tablename__ is not None else self.__class__.__name__
+        self._name: str = self.__tablename__.strip().upper() if self.__tablename__ is not None else self.__class__.__name__
 
-        self._validate_test(self.__test__)
-        self._test: bool = self.__test__
+        self._validate_test(test)
+        self._test: bool = test
+
+        self._validate_create_if_not_exists(create_if_not_exists)
+        self._create_if_not_exists = create_if_not_exists
 
         if self.__constraints__ is not None:
             self._validate_named_constraints(self.__constraints__)
@@ -48,11 +50,15 @@ class Table(metaclass=TableMeta):
         return isinstance(name, str) and re.search(r'^[a-zA-Z][a-zA-Z0-9_]*$', name)
 
     def _validate_test(self, test: bool) -> None:
-        if not self._is_test_valid(test):
+        if not self._is_bool(test):
             raise InvalidTestValue(self._name, test)
 
-    def _is_test_valid(self, test: bool) -> bool:
+    def _is_bool(self, test: bool) -> bool:
         return isinstance(test, bool)
+
+    def _validate_create_if_not_exists(self, create_if_not_exists: bool) -> None:
+        if not self._is_bool(create_if_not_exists):
+            raise InvalidCreateIfNotExistsValue(self._name, create_if_not_exists)
 
     def _validate_named_constraints(self, constraints: list[NamedConstraint]) -> None:
         if not self._is_constraint_list_valid(constraints):
@@ -153,7 +159,7 @@ class Table(metaclass=TableMeta):
         if unnamed_consts:
             columns_str += ',\n\n\t'
 
-        table_repr = f"CREATE TABLE {self._name} (\n\t{columns_str}{unnamed_consts}\n);"
+        table_repr = f"CREATE TABLE{' IF NOT EXISTS' if self._create_if_not_exists else ''} {self._name} (\n\t{columns_str}{unnamed_consts}\n);"
 
         if self.__constraints__ is not None:
             for constraint in self.__constraints__:
