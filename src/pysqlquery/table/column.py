@@ -1,3 +1,7 @@
+'''
+Defines the Char class for constructing SQL table column.
+'''
+
 from typing import Any, Literal
 
 from ..types.base.sql_num_type import SQLNumType
@@ -17,6 +21,14 @@ from ..constraints import ForeignKey, ForeignKeyConstraint
 
 
 class Column:
+    '''
+    Represents a SQL table column.
+
+    This class must be used in a SQL table class.
+
+    If named constraints are passed in a table, they can modifying table's columns.
+    '''
+
     def __init__(
             self,
             data_type: SQLType,
@@ -27,7 +39,58 @@ class Column:
             nullable: bool = False,
             unique: bool = False,
             default: Any = None
-        ):
+        ) -> None:
+        '''
+        Parameters
+        ----------
+        data_type : SQLType
+            The column's data type (can be a class or a instance).
+        foreign_key : ForeignKey | None
+            The column's unnamed FOREIGN KEY constraint.
+        primary_key : bool
+            If the column is primary key.
+        auto_increment : str | None
+            The kind of auto increment that column can receive.
+        nullable : bool
+            If the column is nullable.
+        unique : bool
+            If the column is unique.
+        default : Any
+            The column's default value (must satisfying the column's data type).
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        A simple column:
+
+        >>> class MyTable(Table):
+        >>> ... col = Column(Integer)
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table.col)
+        col INTEGER NOT NULL
+
+        Columns with some modifiers:
+
+        >>> class TbProducts(Table):
+        >>> ... id = Column(Integer(6), primary_key=True, auto_incremente='mysql')
+        >>> ... name = Column(String(50), unique=True)
+        >>> ... price = Column(Float(7, 2), default=1)
+
+        When `NamedConstraint` is passed for table, it can modifying this column.
+
+        >>> class MyTable(Table):
+        >>> ... un_col = Column(Char(10))
+        >>> ... __constraints__ = [UniqueConstraint('un_my_table_un_col', 'un_col')]
+        >>> ...
+        >>> my_table = MyTable()
+        >>> my_table.un_col.unique
+        True
+        '''
+
         self._validate_data_type(data_type)
         self._data_type: SQLType = self._handle_data_type(data_type)
 
@@ -165,27 +228,64 @@ class Column:
         return f'DEFAULT {self._default!r}' if self._default is not None else None
 
     def define_primary_key_from_named_constraint(self) -> None:
+        '''
+        Define this column as primary key from a table's named constraint.
+
+        `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
+        '''
+
         self._nullable = False
         self._named_primary_key = True
         self._set_constraints_repr()
         self._unnamed_unique = True
 
     def define_foreign_key_from_named_constraint(self, fk_const: ForeignKeyConstraint) -> None:
+        '''
+        Define this column as foreign key from a table's named constraint.
+
+        `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
+        '''
+
         if self._named_foreign_key is not None:
             raise ColumnAlreadyHasNamedForeignKeyConstraint()
 
         self._named_foreign_key = fk_const
 
     def define_unique_from_named_constraint(self) -> None:
+        '''
+        Define this column as unique from a table's named constraint.
+
+        `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
+        '''
+
         if self._named_unique:
             raise ColumnAlreadyHasNamedUniqueConstraint()
 
         self._named_unique = True
 
     def is_primary_key_named(self) -> bool:
+        '''
+        Return if this column is primary key from unnamed or named constraint if this column
+        is primary key.
+
+        `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
+        '''
+
         return bool(self._named_primary_key)
 
     def is_foreign_key_named(self) -> bool:
+        '''
+        Return if this column is foreign key from unnamed or named constraint if this column
+        is foreign key.
+
+        `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
+        '''
+
         return bool(self._named_foreign_key)
 
     @property
