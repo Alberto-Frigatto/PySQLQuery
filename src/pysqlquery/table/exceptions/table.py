@@ -40,3 +40,10 @@ class InvalidTestValue(TableException):
 
     def __init__(self, table: str, value: Any) -> None:
         super().__init__(self.MESSAGE.format(table=table, value=value))
+
+
+class InvalidCreateIfNotExistsValue(TableException):
+    MESSAGE = 'The create_if_not_exists parameter of {table} table must be bool, but {value!r} was passed'
+
+    def __init__(self, table: str, value: Any) -> None:
+        super().__init__(self.MESSAGE.format(table=table, value=value))
