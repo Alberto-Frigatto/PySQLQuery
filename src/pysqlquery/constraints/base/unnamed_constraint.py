@@ -28,6 +28,7 @@ class UnnamedConstraint(Constraint, metaclass=ABCMeta):
         Adds the column's name that this constraint belongs to.
 
         `This method shouldn't be used`. It's used by `pysqlquery` automatically when you adds
+        this constraint in a Table.
         '''
 
         self._validate_column_name(column_name)
