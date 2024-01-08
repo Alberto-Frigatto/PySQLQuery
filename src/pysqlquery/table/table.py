@@ -1,3 +1,7 @@
+'''
+Defines the Table class for constructing SQL tables.
+'''
+
 import re
 from ..constraints.base.named_constraint import NamedConstraint
 from ..constraints import (
@@ -18,12 +22,99 @@ from .exceptions.table import (
 
 
 class Table(metaclass=TableMeta):
+    '''
+    Represents a SQL table.
+
+    This class must be used as superclass for a table class, and subclass must contains
+    1 or more Column class for SQL columns as class attributes.
+    '''
+
     __tablename__: str | None = None
     __constraints__: list[NamedConstraint] = None
 
     _tables: list['Table'] = []
 
     def __init__(self, *, create_if_not_exists: bool = False, test: bool = False) -> None:
+        '''
+        Parameters
+        ----------
+        create_if_not_exists : bool
+            If this table must receive the IF NOT EXISTS clause.
+        test : bool
+            If this table must added to the table global list.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        Constructing a table class:
+
+        >>> class MyTable(Table):
+        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
+        >>> ... name = Column(String(50))
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table)
+        CREATE TABLE MYTABLE (
+            id INTEGER AUTO_INCREMENT NOT NULL,
+            name VARCHAR(50) NOT NULL,
+
+            PRIMARY KEY (id)
+        );
+
+        Defining a custom name:
+
+        >>> class MyTable(Table):
+        >>> ... __tablename__ = 'tb_customer'
+        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
+        >>> ... name = Column(String(50))
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table)
+        CREATE TABLE TB_CUSTOMER (
+            id INTEGER AUTO_INCREMENT NOT NULL,
+            name VARCHAR(50) NOT NULL,
+
+            PRIMARY KEY (id)
+        );
+
+        Defining named constraints:
+
+        >>> class MyTable(Table):
+        >>> ... __tablename__ = 'tb_customer'
+        >>> ... id = Column(Integer, auto_increment='mysql')
+        >>> ... name = Column(String(50))
+        >>> ... __constraints__ = [PrimaryKeyConstraint('pk_tb_customer', 'id')]
+        >>> ...
+        >>> my_table = MyTable()
+        >>> print(my_table)
+        CREATE TABLE TB_CUSTOMER (
+            id INTEGER AUTO_INCREMENT NOT NULL,
+            name VARCHAR(50) NOT NULL
+        );
+
+        ALTER TABLE TB_CUSTOMER
+            ADD CONSTRAINT pk_tb_customer PRIMARY KEY (id);
+
+        Adding IF NOT EXISTS clause:
+
+        >>> class MyTable(Table):
+        >>> ... __tablename__ = 'tb_customer'
+        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
+        >>> ... name = Column(String(50))
+        >>> ...
+        >>> my_table = MyTable(create_if_not_exists=True)
+        >>> print(my_table)
+        CREATE TABLE IF NOT EXISTS TB_CUSTOMER (
+            id INTEGER AUTO_INCREMENT NOT NULL,
+            name VARCHAR(50) NOT NULL,
+
+            PRIMARY KEY (id)
+        );
+        '''
+
         if self.__tablename__ is not None:
             self._validate_name(self.__tablename__)
 
@@ -140,6 +231,13 @@ class Table(metaclass=TableMeta):
                 table_column.define_unique_from_named_constraint()
 
     def __str__(self) -> str:
+        '''
+        Returns
+        -------
+        str
+            A string representation of the class instance in SQL format.
+        '''
+
         unnamed_pk_consts_str = ''
         unnamed_pk_consts = [column.name for column in self.primary_key if not column.is_primary_key_named()]
 
@@ -168,9 +266,9 @@ class Table(metaclass=TableMeta):
         return table_repr
 
     @classmethod
-    def save_all_tables(self, path: str, encoding: str = 'UTF-8') -> None:
+    def save_all_tables(cls, path: str, encoding: str = 'UTF-8') -> None:
         with open(path, 'w', encoding=encoding) as file:
-            file.write(self.create_query_all_tables)
+            file.write(cls.create_query_all_tables)
 
     @property
     def tablename(self) -> str:
@@ -196,10 +294,10 @@ class Table(metaclass=TableMeta):
 
     @classmethod
     @property
-    def all_tables(self) -> list['Table']:
-        return self._tables
+    def all_tables(cls) -> list['Table']:
+        return cls._tables
 
     @classmethod
     @property
-    def create_query_all_tables(self) -> str | None:
-        return '\n\n'.join([str(table) for table in self._tables]) if self._tables else None
+    def create_query_all_tables(cls) -> str | None:
+        return '\n\n'.join([str(table) for table in cls._tables]) if cls._tables else None
