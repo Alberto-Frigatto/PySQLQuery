@@ -23,7 +23,7 @@ class Table(metaclass=TableMeta):
 
     _tables: list['Table'] = []
 
-    def __init__(self, *, create_if_not_exists: bool = False, test: bool = False):
+    def __init__(self, *, create_if_not_exists: bool = False, test: bool = False) -> None:
         if self.__tablename__ is not None:
             self._validate_name(self.__tablename__)
 
