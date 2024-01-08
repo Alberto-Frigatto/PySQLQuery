@@ -27,7 +27,7 @@ class Table(metaclass=TableMeta):
         if self.__tablename__ is not None:
             self._validate_name(self.__tablename__)
 
-        self._name: str = self.__tablename__.strip().upper() if self.__tablename__ is not None else self.__class__.__name__
+        self._name: str = self.__tablename__.strip().upper() if self.__tablename__ is not None else self.__class__.__name__.upper()
 
         self._validate_test(test)
         self._test: bool = test
