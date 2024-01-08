@@ -1,5 +1,5 @@
 '''
-Defines the Char class for constructing SQL table column.
+Defines the Column class for constructing SQL table columns.
 '''
 
 from typing import Any, Literal
@@ -188,6 +188,13 @@ class Column:
             self._unnamed_foreign_key.add_column_name(name)
 
     def __str__(self) -> str:
+        '''
+        Returns
+        -------
+        str
+            A string representation of the class instance in SQL format.
+        '''
+
         constraints_str = " ".join(constraint for constraint in self._unnamed_constraints_repr if constraint)
 
         return f"{self._name} {self._data_type}{' ' + constraints_str if constraints_str else ''}"
