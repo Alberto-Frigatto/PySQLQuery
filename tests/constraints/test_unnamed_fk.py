@@ -17,9 +17,7 @@ class TestUnnamedFk:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('outra_tabela', 'id'))
 
-            __test__ = True
-
-        entry = Tabela()
+        entry = Tabela(test=True)
         result = str(entry.fk_col.foreign_key)
         expected = 'FOREIGN KEY (fk_col) REFERENCES OUTRA_TABELA(id)'
 
@@ -29,9 +27,7 @@ class TestUnnamedFk:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('OUTRA_TABELA', 'ID'))
 
-            __test__ = True
-
-        entry = Tabela()
+        entry = Tabela(test=True)
         result = str(entry.fk_col.foreign_key)
         expected = 'FOREIGN KEY (fk_col) REFERENCES OUTRA_TABELA(id)'
 
@@ -41,9 +37,7 @@ class TestUnnamedFk:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('outra_tabela', 'id', on_delete='cascade', on_update='no action'))
 
-            __test__ = True
-
-        entry = Tabela()
+        entry = Tabela(test=True)
         result = str(entry.fk_col.foreign_key)
         expected = 'FOREIGN KEY (fk_col) REFERENCES OUTRA_TABELA(id) ON DELETE CASCADE ON UPDATE NO ACTION'
 
@@ -53,9 +47,7 @@ class TestUnnamedFk:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('outra_tabela', 'id', on_delete='cascade', on_update='no action'))
 
-            __test__ = True
-
-        entry = Tabela().fk_col.foreign_key
+        entry = Tabela(test=True).fk_col.foreign_key
 
         assert entry.column == 'fk_col'
         assert entry.ref_table == 'outra_tabela'
@@ -67,9 +59,7 @@ class TestUnnamedFk:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('OUTRA_TABELA', 'ID', on_delete='CASCADE', on_update='NO ACTION'))
 
-            __test__ = True
-
-        entry = Tabela().fk_col.foreign_key
+        entry = Tabela(test=True).fk_col.foreign_key
 
         assert entry.column == 'fk_col'
         assert entry.ref_table == 'outra_tabela'
