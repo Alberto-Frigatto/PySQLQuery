@@ -48,7 +48,7 @@ class TestTable:
 
         entry = Tabela(test=True)
         result = str(entry)
-        expected = 'CREATE TABLE Tabela (\n\tid INTEGER AUTO_INCREMENT NOT NULL,\n\tnome VARCHAR(50) NOT NULL,\n\tsobrenome VARCHAR,\n\tcpf CHAR(11) NOT NULL UNIQUE,\n\tsalario FLOAT(7, 2) NOT NULL DEFAULT 1212.78,\n\tid_setor INTEGER NOT NULL,\n\n\tPRIMARY KEY (id),\n\tFOREIGN KEY (id_setor) REFERENCES T_SETOR(id)\n);'
+        expected = 'CREATE TABLE TABELA (\n\tid INTEGER AUTO_INCREMENT NOT NULL,\n\tnome VARCHAR(50) NOT NULL,\n\tsobrenome VARCHAR,\n\tcpf CHAR(11) NOT NULL UNIQUE,\n\tsalario FLOAT(7, 2) NOT NULL DEFAULT 1212.78,\n\tid_setor INTEGER NOT NULL,\n\n\tPRIMARY KEY (id),\n\tFOREIGN KEY (id_setor) REFERENCES T_SETOR(id)\n);'
 
         assert result == expected
 
@@ -115,17 +115,17 @@ class TestTable:
 
         entry = Tabela(create_if_not_exists=True, test=True)
         result = str(entry)
-        expected = 'CREATE TABLE IF NOT EXISTS Tabela (\n\tcol INTEGER NOT NULL\n);'
+        expected = 'CREATE TABLE IF NOT EXISTS TABELA (\n\tcol INTEGER NOT NULL\n);'
 
         assert result == expected
 
-    def test_quando_nao_recebe__tablename__e_acessamos_a_property_table_name_retorna_o_nome_da_classe(self) -> None:
+    def test_quando_nao_recebe__tablename__e_acessamos_a_property_table_name_retorna_o_nome_da_classe_em_maiusculo(self) -> None:
         class Tabela(Table):
             col = Column(Integer)
 
         entry = Tabela(test=True)
         result = entry.tablename
-        expected = entry.__class__.__name__
+        expected = entry.__class__.__name__.upper()
 
         assert result == expected
 
