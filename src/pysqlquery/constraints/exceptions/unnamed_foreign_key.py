@@ -4,6 +4,7 @@ Defines the base exception classes for ForeignKey class.
 
 from abc import ABCMeta
 from typing import Any
+
 from .unnamed_constraint import UnnamedConstraintException
 
 
@@ -11,9 +12,6 @@ class UnnamedForeignKeyException(UnnamedConstraintException, metaclass=ABCMeta):
     '''
     Abstract base exception class for ForeignKey-related exceptions.
     '''
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class InvalidRefTable(UnnamedForeignKeyException):
@@ -91,8 +89,12 @@ class InvalidOnDeleteClause(UnnamedForeignKeyException):
     Exception raised for an invalid on delete clause.
     '''
 
-    MESSAGE = ("The given value in ForeignKey constraint for {ref_table}.{ref_column} is an invalid option for on_delete clause.\n"
-               "It must be 'cascade', 'set null', 'set default', 'no action' or 'restrict', but {on_delete!r} was passed")
+    MESSAGE = (
+        "The given value in ForeignKey constraint for {ref_table}.{ref_column} is"
+        " an invalid option for on_delete clause.\n"
+        "It must be 'cascade', 'set null', 'set default', 'no action' or 'restrict'"
+        ", but {on_delete!r} was passed"
+    )
 
     def __init__(self, ref_table: str, ref_column: str, on_delete: Any) -> None:
         '''
@@ -110,7 +112,9 @@ class InvalidOnDeleteClause(UnnamedForeignKeyException):
         None
         '''
 
-        super().__init__(self.MESSAGE.format(ref_table=ref_table, ref_column=ref_column, on_delete=on_delete))
+        super().__init__(
+            self.MESSAGE.format(ref_table=ref_table, ref_column=ref_column, on_delete=on_delete)
+        )
 
 
 class InvalidOnUpdateClause(UnnamedForeignKeyException):
@@ -118,8 +122,12 @@ class InvalidOnUpdateClause(UnnamedForeignKeyException):
     Exception raised for an invalid on update clause.
     '''
 
-    MESSAGE = ("The given value in ForeignKey constraint for {ref_table}.{ref_column} is an invalid option for on_update clause.\n"
-               "It must be 'cascade', 'set null', 'set default', 'no action' or 'restrict', but {on_update!r} was passed")
+    MESSAGE = (
+        "The given value in ForeignKey constraint for {ref_table}.{ref_column} is"
+        " an invalid option for on_update clause.\n"
+        "It must be 'cascade', 'set null', 'set default', 'no action' or 'restrict'"
+        ", but {on_update!r} was passed"
+    )
 
     def __init__(self, ref_table: str, ref_column: str, on_update: Any) -> None:
         '''
@@ -137,4 +145,6 @@ class InvalidOnUpdateClause(UnnamedForeignKeyException):
         None
         '''
 
-        super().__init__(self.MESSAGE.format(ref_table=ref_table, ref_column=ref_column, on_update=on_update))
+        super().__init__(
+            self.MESSAGE.format(ref_table=ref_table, ref_column=ref_column, on_update=on_update)
+        )

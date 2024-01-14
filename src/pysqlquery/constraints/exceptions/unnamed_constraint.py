@@ -4,6 +4,7 @@ Defines the base exception classes for unnamed SQL constraint classes.
 
 from abc import ABCMeta
 from typing import Any
+
 from .constraint import ConstraintException
 
 
@@ -11,9 +12,6 @@ class UnnamedConstraintException(ConstraintException, metaclass=ABCMeta):
     '''
     Abstract base exception class for unnamed SQL constraint-related exceptions.
     '''
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class InvalidAddedColumnName(UnnamedConstraintException):
