@@ -4,15 +4,14 @@ Defines the base exception classes for decimal SQL type classes.
 
 from abc import ABCMeta
 from typing import Any
+
 from .sql_num_type import SQLNumTypeException
+
 
 class SQLDecimalTypeException(SQLNumTypeException, metaclass=ABCMeta):
     '''
     Abstract base exception class for decimal SQL type-related exceptions.
     '''
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class InvalidPrecision(SQLDecimalTypeException):

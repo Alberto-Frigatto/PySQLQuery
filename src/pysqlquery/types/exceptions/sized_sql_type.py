@@ -4,6 +4,7 @@ Defines the base exception classes for sized SQL type classes.
 
 from abc import ABCMeta
 from typing import Any
+
 from .sql_type import SQLTypeException
 
 
@@ -11,9 +12,6 @@ class SizedSQLTypeException(SQLTypeException, metaclass=ABCMeta):
     '''
     Abstract base exception class for sized SQL type-related exceptions.
     '''
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class InvalidTypeLength(SizedSQLTypeException):
