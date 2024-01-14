@@ -2,10 +2,11 @@
 Defines the abstract base class for constructing named SQL constraint classes.
 '''
 
-from abc import ABCMeta
 import re
-from .constraint import Constraint
+from abc import ABCMeta
+
 from ..exceptions.named_constraint import InvalidConstraintName
+from .constraint import Constraint
 
 
 class NamedConstraint(Constraint, metaclass=ABCMeta):

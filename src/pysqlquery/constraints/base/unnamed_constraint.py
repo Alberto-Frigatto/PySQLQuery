@@ -2,8 +2,9 @@
 Defines the abstract base class for constructing unnamed SQL constraint classes.
 '''
 
-from abc import ABCMeta
 import re
+from abc import ABCMeta
+
 from ..exceptions.unnamed_constraint import InvalidAddedColumnName
 from .constraint import Constraint
 
@@ -42,5 +43,5 @@ class UnnamedConstraint(Constraint, metaclass=ABCMeta):
         return isinstance(column_name, str) and re.search(r'^[a-zA-Z][a-zA-Z0-9_]*$', column_name)
 
     @property
-    def column(self)-> str:
+    def column(self) -> str:
         return self._column_name

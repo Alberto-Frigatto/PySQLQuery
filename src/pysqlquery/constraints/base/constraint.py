@@ -23,5 +23,3 @@ class Constraint(metaclass=ABCMeta):
         str
             A string representation of the class instance in SQL format.
         '''
-
-        pass

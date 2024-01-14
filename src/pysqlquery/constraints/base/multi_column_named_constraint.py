@@ -2,11 +2,12 @@
 Defines the abstract base class for constructing multi column named SQL constraint classes.
 '''
 
-from abc import ABCMeta
 import re
-from .named_constraint import NamedConstraint
+from abc import ABCMeta
+
 from ..exceptions.multi_column_named_constraint import InvalidColumnType
 from ..exceptions.named_constraint import InvalidColumnName
+from .named_constraint import NamedConstraint
 
 
 class MultiColumnNamedConstraint(NamedConstraint, metaclass=ABCMeta):
@@ -42,12 +43,13 @@ class MultiColumnNamedConstraint(NamedConstraint, metaclass=ABCMeta):
         if not self._is_column_of_a_allowed_type(column):
             raise InvalidColumnType(super().name, column)
 
-        if not len(column):
+        if not column:
             raise InvalidColumnName(super().name, column)
 
         if isinstance(column, str) and not self._is_column_name_valid(column):
             raise InvalidColumnName(super().name, column)
-        elif isinstance(column, list):
+
+        if isinstance(column, list):
             for column_name in column:
                 if not self._is_column_name_valid(column_name):
                     raise InvalidColumnName(super().name, column_name)
@@ -56,16 +58,18 @@ class MultiColumnNamedConstraint(NamedConstraint, metaclass=ABCMeta):
         return isinstance(column, (str, list))
 
     def _is_column_name_valid(self, column_name: str) -> bool:
-        return isinstance(column_name, str) and bool(re.search(r'^[a-zA-Z_][a-zA-Z0-9_]*$', column_name))
+        return isinstance(column_name, str) and bool(
+            re.search(r'^[a-zA-Z_][a-zA-Z0-9_]*$', column_name)
+        )
 
     def _handle_column(self, column: str | list[str]) -> str | list[str]:
         if isinstance(column, str):
             return column.strip().lower()
-        else:
-            if len(column) == 1:
-                return column[0].strip().lower()
-            else:
-                return [column_name.strip().lower() for column_name in column]
+
+        if len(column) == 1:
+            return column[0].strip().lower()
+
+        return [column_name.strip().lower() for column_name in column]
 
     @property
     def column(self) -> str | list[str]:

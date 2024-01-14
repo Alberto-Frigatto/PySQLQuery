@@ -2,10 +2,11 @@
 Defines the abstract base class for constructing single column named SQL constraint classes.
 '''
 
-from abc import ABCMeta
 import re
-from .named_constraint import NamedConstraint
+from abc import ABCMeta
+
 from ..exceptions.named_constraint import InvalidColumnName
+from .named_constraint import NamedConstraint
 
 
 class SingleColumnNamedConstraint(NamedConstraint, metaclass=ABCMeta):
