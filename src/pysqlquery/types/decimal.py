@@ -3,6 +3,7 @@ Defines the Decimal class for constructing DECIMAL SQL type.
 '''
 
 from typing import Any
+
 from .base import SQLDecimalType
 
 
@@ -55,7 +56,7 @@ class Decimal(SQLDecimalType):
             if super().precision is not None:
                 rendered_value += f', {super().precision}'
 
-            rendered_value += f')'
+            rendered_value += ')'
 
         return rendered_value
 
@@ -106,7 +107,6 @@ class Decimal(SQLDecimalType):
                 return False
 
             if super().precision:
-
                 DECIMAL_SEP = '.'
 
                 pos_decimal_sep = number_str.find(DECIMAL_SEP)
@@ -121,7 +121,7 @@ class Decimal(SQLDecimalType):
         return True
 
     def _is_number(self, value: Any) -> bool:
-        return isinstance(value, int) or isinstance(value, float)
+        return isinstance(value, (int, float))
 
     def _is_smaller_or_eq_than_the_length_limit(self, number_str: str) -> bool:
         return len(number_str.replace('.', '')) <= super().length

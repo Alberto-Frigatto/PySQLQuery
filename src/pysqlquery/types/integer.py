@@ -78,4 +78,6 @@ class Integer(SQLIntType):
         False
         '''
 
-        return isinstance(value, int) and (len(str(value)) <= super().length if super().length else True)
+        return isinstance(value, int) and (
+            len(str(value)) <= super().length if super().length else True
+        )

@@ -17,15 +17,15 @@ There are these classes:
 - `Time` - equivalent to TIME type
 '''
 
-from .string import String
-from .float import Float
-from .integer import Integer
+from .bit import Bit
+from .boolean import Boolean
 from .char import Char
 from .date import Date
 from .datetime import DateTime
-from .boolean import Boolean
-from .bit import Bit
-from .real import Real
-from .time import Time
-from .double import Double
 from .decimal import Decimal
+from .double import Double
+from .float import Float
+from .integer import Integer
+from .real import Real
+from .string import String
+from .time import Time

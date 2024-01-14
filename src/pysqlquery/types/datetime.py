@@ -2,8 +2,9 @@
 Defines the DateTime class for constructing DATETIME SQL type.
 '''
 
-from .base import SQLDateType
 from datetime import datetime
+
+from .base import SQLDateType
 
 
 class DateTime(SQLDateType):
@@ -43,7 +44,8 @@ class DateTime(SQLDateType):
         Returns
         -------
         bool
-            True if the value is valid for the DATETIME SQL type in `yyyy-mm-dd HH:MM:ss` pattern, False otherwise.
+            True if the value is valid for the DATETIME SQL type
+            in `yyyy-mm-dd HH:MM:ss` pattern, False otherwise.
 
         Examples
         --------
@@ -60,7 +62,7 @@ class DateTime(SQLDateType):
 
         try:
             datetime.strptime(value, super().pattern)
-        except Exception:
+        except (TypeError, ValueError):
             return False
 
         return True

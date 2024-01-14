@@ -2,8 +2,9 @@
 Defines the Time class for constructing TIME SQL type.
 '''
 
-from .base import SQLDateType
 from datetime import datetime
+
+from .base import SQLDateType
 
 
 class Time(SQLDateType):
@@ -60,7 +61,7 @@ class Time(SQLDateType):
 
         try:
             datetime.strptime(value, super().pattern)
-        except Exception:
+        except (TypeError, ValueError):
             return False
 
         return True

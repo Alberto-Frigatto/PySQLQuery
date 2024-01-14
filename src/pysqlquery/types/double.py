@@ -3,6 +3,7 @@ Defines the Double class for constructing DOUBLE SQL type.
 '''
 
 from typing import Any
+
 from .base import SQLDecimalType
 
 
@@ -55,7 +56,7 @@ class Double(SQLDecimalType):
             if super().precision is not None:
                 rendered_value += f', {super().precision}'
 
-            rendered_value += f')'
+            rendered_value += ')'
 
         return rendered_value
 
@@ -106,7 +107,6 @@ class Double(SQLDecimalType):
                 return False
 
             if super().precision:
-
                 DECIMAL_SEP = '.'
 
                 pos_decimal_sep = number_str.find(DECIMAL_SEP)
