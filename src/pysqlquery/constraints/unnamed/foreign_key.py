@@ -4,13 +4,14 @@ Defines the ForeignKey class for constructing unnamed FOREIGN KEY SQL constraint
 
 import re
 from typing import Literal
+
 from ..base import UnnamedConstraint
 from ..exceptions.unnamed_foreign_key import (
-    MissingColumnName,
+    InvalidOnDeleteClause,
+    InvalidOnUpdateClause,
     InvalidRefColumn,
     InvalidRefTable,
-    InvalidOnDeleteClause,
-    InvalidOnUpdateClause
+    MissingColumnName,
 )
 
 
@@ -25,13 +26,15 @@ class ForeignKey(UnnamedConstraint):
     '''
 
     def __init__(
-            self,
-            ref_table: str,
-            ref_column: str,
-            *,
-            on_delete: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None,
-            on_update: Literal['cascade', 'set null', 'set default', 'no action', 'restrict'] | None = None
-        ) -> None:
+        self,
+        ref_table: str,
+        ref_column: str,
+        *,
+        on_delete: Literal['cascade', 'set null', 'set default', 'no action', 'restrict']
+        | None = None,
+        on_update: Literal['cascade', 'set null', 'set default', 'no action', 'restrict']
+        | None = None,
+    ) -> None:
         '''
         Parameters
         ----------
@@ -98,16 +101,13 @@ class ForeignKey(UnnamedConstraint):
             raise InvalidOnDeleteClause(self._ref_table, self._ref_column, on_delete)
 
     def _is_on_clause_valid(self, on_clause: str | None) -> bool:
-        allowed_kinds_of_on_clause = (
-            'cascade',
-            'set null',
-            'set default',
-            'no action',
-            'restrict'
-        )
+        allowed_kinds_of_on_clause = ('cascade', 'set null', 'set default', 'no action', 'restrict')
 
-        return on_clause is None or \
-            isinstance(on_clause, str) and on_clause.strip().lower() in allowed_kinds_of_on_clause
+        return (
+            on_clause is None
+            or isinstance(on_clause, str)
+            and on_clause.strip().lower() in allowed_kinds_of_on_clause
+        )
 
     def _validate_on_update(self, on_update: str | None) -> None:
         if not self._is_on_clause_valid(on_update):
