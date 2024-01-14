@@ -4,20 +4,20 @@ Defines the Column class for constructing SQL table columns.
 
 from typing import Any, Literal
 
+from ..constraints import ForeignKey, ForeignKeyConstraint
 from ..types.base.sql_num_type import SQLNumType
 from ..types.base.sql_type import SQLType
 from .exceptions.column import (
+    ColumnAlreadyHasNamedForeignKeyConstraint,
+    ColumnAlreadyHasNamedUniqueConstraint,
     InvalidAutoIncrement,
+    InvalidDefaultValue,
     InvalidForeignKey,
     InvalidNullable,
     InvalidPrimaryKey,
     InvalidSQLType,
     InvalidUnique,
-    InvalidDefaultValue,
-    ColumnAlreadyHasNamedForeignKeyConstraint,
-    ColumnAlreadyHasNamedUniqueConstraint
 )
-from ..constraints import ForeignKey, ForeignKeyConstraint
 
 
 class Column:
@@ -30,16 +30,16 @@ class Column:
     '''
 
     def __init__(
-            self,
-            data_type: SQLType,
-            foreign_key: ForeignKey | None = None,
-            *,
-            primary_key: bool = False,
-            auto_increment: Literal['mssql', 'mysql', 'sqlite', 'postgree'] | None = None,
-            nullable: bool = False,
-            unique: bool = False,
-            default: Any = None
-        ) -> None:
+        self,
+        data_type: SQLType,
+        foreign_key: ForeignKey | None = None,
+        *,
+        primary_key: bool = False,
+        auto_increment: Literal['mssql', 'mysql', 'sqlite', 'postgree'] | None = None,
+        nullable: bool = False,
+        unique: bool = False,
+        default: Any = None,
+    ) -> None:
         '''
         Parameters
         ----------
@@ -104,12 +104,13 @@ class Column:
             'mssql': 'IDENTITY(1, 1)',
             'mysql': 'AUTO_INCREMENT',
             'sqlite': 'AUTO INCREMENT',
-            'postgree': 'SERIAL'
+            'postgree': 'SERIAL',
         }
 
         self._validate_auto_increment(auto_increment)
-        self._auto_increment: str = self._handle_auto_increment(auto_increment) \
-            if auto_increment is not None else None
+        self._auto_increment: str = (
+            self._handle_auto_increment(auto_increment) if auto_increment is not None else None
+        )
 
         self._validate_nullable(nullable)
         self._nullable: bool = nullable
@@ -135,7 +136,9 @@ class Column:
             raise InvalidSQLType(data_type)
 
     def _is_data_type_valid(self, data_type: SQLType) -> bool:
-        return (isinstance(data_type, type) and issubclass(data_type, SQLType)) or isinstance(data_type, SQLType)
+        return (isinstance(data_type, type) and issubclass(data_type, SQLType)) or isinstance(
+            data_type, SQLType
+        )
 
     def _validate_unnamed_fk(self, foreign_key: ForeignKey) -> None:
         if not self._is_foreign_key_valid(foreign_key):
@@ -156,9 +159,11 @@ class Column:
             raise InvalidAutoIncrement(auto_increment)
 
     def _is_auto_increment_valid(self, auto_increment: str):
-        return auto_increment is None or \
-            isinstance(auto_increment, str) and \
-                auto_increment.lower() in self._allowed_kinds_of_auto_increment.keys()
+        return (
+            auto_increment is None
+            or isinstance(auto_increment, str)
+            and auto_increment.lower() in self._allowed_kinds_of_auto_increment.keys()
+        )
 
     def _validate_nullable(self, nullable: bool) -> None:
         if not self._is_bool(nullable):
@@ -195,7 +200,9 @@ class Column:
             A string representation of the class instance in SQL format.
         '''
 
-        constraints_str = " ".join(constraint for constraint in self._unnamed_constraints_repr if constraint)
+        constraints_str = " ".join(
+            constraint for constraint in self._unnamed_constraints_repr if constraint
+        )
 
         return f"{self._name} {self._data_type}{' ' + constraints_str if constraints_str else ''}"
 
@@ -219,11 +226,15 @@ class Column:
             ai_constraint,
             null_constraint,
             un_constraint,
-            default_value
+            default_value,
         )
 
     def _get_auto_increment_constraint_repr(self) -> str | None:
-        return self._auto_increment if self._auto_increment and isinstance(self._data_type, SQLNumType) else None
+        return (
+            self._auto_increment
+            if self._auto_increment and isinstance(self._data_type, SQLNumType)
+            else None
+        )
 
     def _get_nullable_constraint_repr(self) -> str | None:
         return None if not self._unnamed_primary_key and self._nullable else 'NOT NULL'
@@ -256,7 +267,7 @@ class Column:
         '''
 
         if self._named_foreign_key is not None:
-            raise ColumnAlreadyHasNamedForeignKeyConstraint()
+            raise ColumnAlreadyHasNamedForeignKeyConstraint(self._name)
 
         self._named_foreign_key = fk_const
 
@@ -269,7 +280,7 @@ class Column:
         '''
 
         if self._named_unique:
-            raise ColumnAlreadyHasNamedUniqueConstraint()
+            raise ColumnAlreadyHasNamedUniqueConstraint(self._name)
 
         self._named_unique = True
 

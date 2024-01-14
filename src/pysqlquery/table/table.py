@@ -3,21 +3,18 @@ Defines the Table class for constructing SQL tables.
 '''
 
 import re
+
+from ..constraints import ForeignKeyConstraint, PrimaryKeyConstraint, UniqueConstraint
 from ..constraints.base.named_constraint import NamedConstraint
-from ..constraints import (
-    PrimaryKeyConstraint,
-    ForeignKeyConstraint,
-    UniqueConstraint
-)
 from . import Column
 from .base import TableMeta
 from .exceptions.table import (
+    InvalidConstraintList,
+    InvalidCreateIfNotExistsValue,
     InvalidName,
     InvalidNamedConstraint,
-    InvalidConstraintList,
-    MultiplePrimaryKeyConstraints,
     InvalidTestValue,
-    InvalidCreateIfNotExistsValue
+    MultiplePrimaryKeyConstraints,
 )
 
 
@@ -41,7 +38,7 @@ class Table(metaclass=TableMeta):
         create_if_not_exists : bool
             If this table must receive the IF NOT EXISTS clause.
         test : bool
-            If this table must added to the table global list.
+            If this table must added to the table global list (True for no).
 
         Returns
         -------
@@ -118,7 +115,11 @@ class Table(metaclass=TableMeta):
         if self.__tablename__ is not None:
             self._validate_name(self.__tablename__)
 
-        self._name: str = self.__tablename__.strip().upper() if self.__tablename__ is not None else self.__class__.__name__.upper()
+        self._name: str = (
+            self.__tablename__.strip().upper()
+            if self.__tablename__ is not None
+            else self.__class__.__name__.upper()
+        )
 
         self._validate_test(test)
         self._test: bool = test
@@ -172,13 +173,15 @@ class Table(metaclass=TableMeta):
             for constraint in constraints:
                 if not isinstance(constraint, NamedConstraint):
                     return False
-            else:
-                return True
+
+            return True
 
         return False
 
     def _are_there_multiple_pk_constraints(self, constraints: list[NamedConstraint]) -> bool:
-        pk_consts = [constraint for constraint in constraints if isinstance(constraint, PrimaryKeyConstraint)]
+        pk_consts = [
+            constraint for constraint in constraints if isinstance(constraint, PrimaryKeyConstraint)
+        ]
 
         return len(pk_consts) > 1
 
@@ -192,9 +195,15 @@ class Table(metaclass=TableMeta):
         return True
 
     def _set_named_constraints_on_columns(self, constraints: list[NamedConstraint]) -> None:
-        pk_consts = [constraint for constraint in constraints if isinstance(constraint, PrimaryKeyConstraint)]
-        fk_consts = [constraint for constraint in constraints if isinstance(constraint, ForeignKeyConstraint)]
-        un_consts = [constraint for constraint in constraints if isinstance(constraint, UniqueConstraint)]
+        pk_consts = [
+            constraint for constraint in constraints if isinstance(constraint, PrimaryKeyConstraint)
+        ]
+        fk_consts = [
+            constraint for constraint in constraints if isinstance(constraint, ForeignKeyConstraint)
+        ]
+        un_consts = [
+            constraint for constraint in constraints if isinstance(constraint, UniqueConstraint)
+        ]
 
         for pk_const in pk_consts:
             self._set_named_primary_key_on_column(pk_const.column)
@@ -239,25 +248,39 @@ class Table(metaclass=TableMeta):
         '''
 
         unnamed_pk_consts_str = ''
-        unnamed_pk_consts = [column.name for column in self.primary_key if not column.is_primary_key_named()]
+        unnamed_pk_consts = [
+            column.name for column in self.primary_key if not column.is_primary_key_named()
+        ]
 
         if unnamed_pk_consts:
             unnamed_pk_consts_str = f'PRIMARY KEY ({", ".join(unnamed_pk_consts)})'
 
         unnamed_fk_consts_str = ''
-        unnamed_fk_consts = [str(column.foreign_key) for column in self._columns if column.foreign_key if not column.is_foreign_key_named()]
+        unnamed_fk_consts = [
+            str(column.foreign_key)
+            for column in self._columns
+            if column.foreign_key
+            if not column.is_foreign_key_named()
+        ]
 
         if unnamed_fk_consts:
             unnamed_fk_consts_str = ",\n\t".join(unnamed_fk_consts)
 
-        unnamed_consts = unnamed_pk_consts_str + (',\n\t' if unnamed_pk_consts_str and unnamed_fk_consts_str else '') + unnamed_fk_consts_str
+        unnamed_consts = (
+            unnamed_pk_consts_str
+            + (',\n\t' if unnamed_pk_consts_str and unnamed_fk_consts_str else '')
+            + unnamed_fk_consts_str
+        )
 
         columns_str = ',\n\t'.join(str(column) for column in self._columns)
 
         if unnamed_consts:
             columns_str += ',\n\n\t'
 
-        table_repr = f"CREATE TABLE{' IF NOT EXISTS' if self._create_if_not_exists else ''} {self._name} (\n\t{columns_str}{unnamed_consts}\n);"
+        table_repr = (
+            f"CREATE TABLE{' IF NOT EXISTS' if self._create_if_not_exists else ''} "
+            f"{self._name} (\n\t{columns_str}{unnamed_consts}\n);"
+        )
 
         if self.__constraints__ is not None:
             for constraint in self.__constraints__:
