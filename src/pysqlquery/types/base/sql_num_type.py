@@ -3,6 +3,7 @@ Defines the abstract base class for constructing numeric SQL type classes.
 '''
 
 from abc import ABCMeta
+
 from .sized_sql_type import SizedSQLType
 
 
@@ -15,4 +16,3 @@ class SQLNumType(SizedSQLType, metaclass=ABCMeta):
 
     This class must be inherited by abstract one.
     '''
-    pass

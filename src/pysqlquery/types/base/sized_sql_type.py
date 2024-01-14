@@ -1,8 +1,10 @@
 '''
-Defines the abstract base class for constructing sized SQL type classes like text types and numeric types.
+Defines the abstract base class for constructing sized SQL type classes
+like text types and numeric types.
 '''
 
 from abc import ABCMeta
+
 from ..exceptions.sized_sql_type import InvalidTypeLength
 from .sql_type import SQLType
 

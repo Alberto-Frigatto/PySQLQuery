@@ -3,6 +3,7 @@ Defines the abstract base class for constructing integer SQL type classes.
 '''
 
 from abc import ABCMeta
+
 from .sql_num_type import SQLNumType
 
 
@@ -16,5 +17,3 @@ class SQLIntType(SQLNumType, metaclass=ABCMeta):
 
     This class must be inherited by concrete or another abstract one.
     '''
-
-    pass

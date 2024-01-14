@@ -3,8 +3,9 @@ Defines the abstract base class for constructing decimal SQL type classes.
 '''
 
 from abc import ABCMeta
-from .sql_num_type import SQLNumType
+
 from ..exceptions.sql_decimal_type import InvalidPrecision
+from .sql_num_type import SQLNumType
 
 
 class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
@@ -44,9 +45,10 @@ class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
             raise InvalidPrecision(super().name, precision)
 
     def _is_precision_valid(self, precision: int | None) -> bool:
-        return (not super().length and precision is None) or \
-            (super().length and not precision) or \
-            (super().length and isinstance(precision, int) and precision >= 0 and precision < super().length)
+        return (not super().length and precision is None) or (
+            super().length
+            and (not precision or isinstance(precision, int) and 0 <= precision < super().length)
+        )
 
     @property
     def precision(self) -> int | None:

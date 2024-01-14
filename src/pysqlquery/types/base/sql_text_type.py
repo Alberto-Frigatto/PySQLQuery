@@ -3,6 +3,7 @@ Defines the abstract base class for constructing text SQL type classes.
 '''
 
 from abc import ABCMeta
+
 from .sized_sql_type import SizedSQLType
 
 
@@ -16,4 +17,3 @@ class SQLTextType(SizedSQLType, metaclass=ABCMeta):
 
     This class must be inherited by concrete or another abstract one.
     '''
-    pass

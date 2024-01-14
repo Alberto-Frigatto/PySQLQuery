@@ -4,6 +4,7 @@ Defines the abstract base class for constructing abstract SQL type classes.
 
 from abc import ABCMeta, abstractmethod
 from typing import Any
+
 from ..exceptions.sql_type import InvalidTypeName
 
 
@@ -53,8 +54,6 @@ class SQLType(metaclass=ABCMeta):
             A string representation of the class instance in SQL format.
         '''
 
-        pass
-
     @abstractmethod
     def validate_value(self, value: Any) -> bool:
         '''
@@ -68,8 +67,6 @@ class SQLType(metaclass=ABCMeta):
         bool
             True if the value is valid for the SQL type, False otherwise.
         '''
-
-        pass
 
     @property
     def name(self) -> str:

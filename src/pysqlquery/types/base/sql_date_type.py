@@ -2,10 +2,11 @@
 Defines the abstract base class for constructing date SQL type classes.
 '''
 
-from abc import ABCMeta
 import re
-from . import SQLType
+from abc import ABCMeta
+
 from ..exceptions.sql_date_type import InvalidDatePattern
+from . import SQLType
 
 
 class SQLDateType(SQLType, metaclass=ABCMeta):
