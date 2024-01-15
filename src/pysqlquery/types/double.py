@@ -17,14 +17,14 @@ class Double(SQLDecimalType):
 
     _TYPE_NAME = 'double'
 
-    def __init__(self, length: int | None = None, precision: int | None = None) -> None:
+    def __init__(self, precision: int | None = None, scale: int | None = None) -> None:
         '''
         Parameters
         ----------
-        length : int | None
-            The length of DOUBLE type.
         precision : int | None
-            The precision of DOUBLE type (if passed it must be lower than length).
+            The precision of DOUBLE type.
+        scale : int | None
+            The scale of DOUBLE type (if passed it must be lower than precision).
 
         Returns
         -------
@@ -45,16 +45,16 @@ class Double(SQLDecimalType):
         DOUBLE(6, 2)
         '''
 
-        super().__init__(self._TYPE_NAME, length, precision)
+        super().__init__(self._TYPE_NAME, precision, scale)
 
     def __str__(self) -> str:
         rendered_value = super().name
 
-        if super().length:
-            rendered_value += f'({super().length}'
+        if super().precision:
+            rendered_value += f'({super().precision}'
 
-            if super().precision is not None:
-                rendered_value += f', {super().precision}'
+            if super().scale is not None:
+                rendered_value += f', {super().scale}'
 
             rendered_value += ')'
 
@@ -102,11 +102,11 @@ class Double(SQLDecimalType):
 
         number_str = str(value)
 
-        if super().length:
-            if not self._is_smaller_or_eq_than_the_length_limit(number_str):
+        if super().precision:
+            if not self._is_smaller_or_eq_than_the_precision_limit(number_str):
                 return False
 
-            if super().precision:
+            if super().scale:
                 DECIMAL_SEP = '.'
 
                 pos_decimal_sep = number_str.find(DECIMAL_SEP)
@@ -116,15 +116,15 @@ class Double(SQLDecimalType):
 
                 qty_decimal_digits = len(number_str) - pos_decimal_sep - 1
 
-                return self._is_smaller_or_eq_than_the_precision(qty_decimal_digits)
+                return self._is_smaller_or_eq_than_the_scale(qty_decimal_digits)
 
         return True
 
     def _is_number(self, value: Any) -> bool:
         return isinstance(value, int) or isinstance(value, float)
 
-    def _is_smaller_or_eq_than_the_length_limit(self, number_str: str) -> bool:
-        return len(number_str.replace('.', '')) <= super().length
+    def _is_smaller_or_eq_than_the_precision_limit(self, number_str: str) -> bool:
+        return len(number_str.replace('.', '')) <= super().precision
 
-    def _is_smaller_or_eq_than_the_precision(self, qty_decimal_digits: int) -> bool:
-        return qty_decimal_digits <= super().precision
+    def _is_smaller_or_eq_than_the_scale(self, qty_decimal_digits: int) -> bool:
+        return qty_decimal_digits <= super().scale

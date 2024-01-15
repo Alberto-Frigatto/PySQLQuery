@@ -15,12 +15,12 @@ class Integer(SQLIntType):
 
     _TYPE_NAME = 'integer'
 
-    def __init__(self, length: int | None = None) -> None:
+    def __init__(self, precision: int | None = None) -> None:
         '''
         Parameters
         ----------
-        length : int | None
-            The length of INTEGER type.
+        precision : int | None
+            The precision of INTEGER type.
 
         Returns
         -------
@@ -37,13 +37,13 @@ class Integer(SQLIntType):
         INTEGER(4)
         '''
 
-        super().__init__(self._TYPE_NAME, length)
+        super().__init__(self._TYPE_NAME, precision)
 
     def __str__(self) -> str:
         rendered_value = super().name
 
-        if super().length:
-            rendered_value += f'({super().length})'
+        if super().precision:
+            rendered_value += f'({super().precision})'
 
         return rendered_value
 
@@ -79,5 +79,5 @@ class Integer(SQLIntType):
         '''
 
         return isinstance(value, int) and (
-            len(str(value)) <= super().length if super().length else True
+            len(str(value)) <= super().precision if super().precision else True
         )
