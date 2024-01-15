@@ -1,6 +1,7 @@
 import pytest
+
 from src.pysqlquery.types import Integer
-from src.pysqlquery.types.exceptions.sized_sql_type import InvalidTypeLength
+from src.pysqlquery.types.exceptions.sql_num_type import InvalidPrecision
 
 
 class TestInteger:
@@ -19,13 +20,13 @@ class TestInteger:
 
         assert result == expected
 
-    def test_quando_recebe_aaa_lanca_InvalidTypeLength(self) -> None:
-        with pytest.raises(InvalidTypeLength):
+    def test_quando_recebe_aaa_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry = 'aaa'
             Integer(entry)
 
-    def test_quando_recebe_0_lanca_InvalidTypeLength(self) -> None:
-        with pytest.raises(InvalidTypeLength):
+    def test_quando_recebe_0_lanca_InvalidPrecision(self) -> None:
+        with pytest.raises(InvalidPrecision):
             entry = 0
             Integer(entry)
 
@@ -54,7 +55,7 @@ class TestInteger:
         assert result == expected
 
     def test_quando_recebe_2_e_valida_4_float_retorna_False(self) -> None:
-        entry = 4.
+        entry = 4.0
         int_type = Integer(2)
         expected = False
         result = int_type.validate_value(entry)

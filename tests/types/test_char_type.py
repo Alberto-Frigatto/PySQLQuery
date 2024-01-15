@@ -1,6 +1,7 @@
 import pytest
+
 from src.pysqlquery.types import Char
-from src.pysqlquery.types.exceptions.sized_sql_type import InvalidTypeLength
+from src.pysqlquery.types.exceptions.sql_text_type import InvalidTypeLength
 
 
 class TestChar:
