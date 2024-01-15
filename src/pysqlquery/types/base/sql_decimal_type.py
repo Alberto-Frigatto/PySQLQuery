@@ -4,7 +4,7 @@ Defines the abstract base class for constructing decimal SQL type classes.
 
 from abc import ABCMeta
 
-from ..exceptions.sql_decimal_type import InvalidPrecision
+from ..exceptions.sql_decimal_type import InvalidScale
 from .sql_num_type import SQLNumType
 
 
@@ -19,14 +19,14 @@ class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
     This class must be inherited by concrete or another abstract one.
     '''
 
-    def __init__(self, sql_type_name: str, length: int | None, precision: int | None) -> None:
+    def __init__(self, sql_type_name: str, precision: int | None, scale: int | None) -> None:
         '''
         Parameters
         ----------
         sql_type_name : str
             The name of decimal SQL type.
-        length : int | None
-            The length of decimal SQL type.
+        precision : int | None
+            The precision of decimal SQL type.
         precision : int | None
             The precision of decimal SQL type (if passed it must be lower than length).
 
@@ -35,21 +35,21 @@ class SQLDecimalType(SQLNumType, metaclass=ABCMeta):
         None
         '''
 
-        super().__init__(sql_type_name, length)
+        super().__init__(sql_type_name, precision)
 
-        self._validate_precision(precision)
-        self._precision: int | None = precision
+        self._validate_scale(scale)
+        self._scale: int | None = scale
 
-    def _validate_precision(self, precision: int | None) -> None:
-        if not self._is_precision_valid(precision):
-            raise InvalidPrecision(super().name, precision)
+    def _validate_scale(self, scale: int | None) -> None:
+        if not self._is_scale_valid(scale):
+            raise InvalidScale(super().name, scale)
 
-    def _is_precision_valid(self, precision: int | None) -> bool:
-        return (not super().length and precision is None) or (
-            super().length
-            and (not precision or isinstance(precision, int) and 0 <= precision < super().length)
+    def _is_scale_valid(self, scale: int | None) -> bool:
+        return (not super().precision and scale is None) or (
+            super().precision
+            and (not scale or isinstance(scale, int) and 0 <= scale < super().precision)
         )
 
     @property
-    def precision(self) -> int | None:
-        return self._precision
+    def scale(self) -> int | None:
+        return self._scale
