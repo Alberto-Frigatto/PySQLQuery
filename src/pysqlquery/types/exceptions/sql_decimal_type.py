@@ -14,25 +14,25 @@ class SQLDecimalTypeException(SQLNumTypeException, metaclass=ABCMeta):
     '''
 
 
-class InvalidPrecision(SQLDecimalTypeException):
+class InvalidScale(SQLDecimalTypeException):
     '''
-    Exception raised for an invalid decimal SQL type precision.
+    Exception raised for an invalid decimal SQL type scale.
     '''
 
-    MESSAGE = 'The given precision of {type} type is invalid: {precision!r}'
+    MESSAGE = 'The given scale of {type} type is invalid: {scale!r}'
 
-    def __init__(self, type_name: str, precision: Any) -> None:
+    def __init__(self, type_name: str, scale: Any) -> None:
         '''
         Parameters
         ----------
         type_name : str
             The name of SQL type.
-        precision : Any
-            The precision of SQL type.
+        scale : Any
+            The scale of SQL type.
 
         Returns
         -------
         None
         '''
 
-        super().__init__(self.MESSAGE.format(type=type_name, precision=precision))
+        super().__init__(self.MESSAGE.format(type=type_name, scale=scale))
