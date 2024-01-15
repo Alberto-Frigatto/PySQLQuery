@@ -50,5 +50,5 @@ class SQLDateType(SQLType, metaclass=ABCMeta):
         return pattern.strip()
 
     @property
-    def pattern(self) -> int:
+    def pattern(self) -> str:
         return self._pattern
