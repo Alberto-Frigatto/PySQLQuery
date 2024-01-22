@@ -100,7 +100,7 @@ class Column:
         self._validate_primary_key(primary_key)
         self._unnamed_primary_key: bool = primary_key
 
-        self._allowed_kinds_of_auto_increment = {
+        self._allowed_kinds_of_auto_increment: dict[str, str] = {
             'mssql': 'IDENTITY(1, 1)',
             'mysql': 'AUTO_INCREMENT',
             'sqlite': 'AUTO INCREMENT',
@@ -140,11 +140,11 @@ class Column:
             data_type, SQLType
         )
 
-    def _validate_unnamed_fk(self, foreign_key: ForeignKey) -> None:
+    def _validate_unnamed_fk(self, foreign_key: ForeignKey | None) -> None:
         if not self._is_foreign_key_valid(foreign_key):
             raise InvalidForeignKey(foreign_key)
 
-    def _is_foreign_key_valid(self, foreign_key: ForeignKey) -> bool:
+    def _is_foreign_key_valid(self, foreign_key: ForeignKey | None) -> bool:
         return foreign_key is None or isinstance(foreign_key, ForeignKey)
 
     def _validate_primary_key(self, primary_key: bool) -> None:
@@ -154,15 +154,15 @@ class Column:
     def _is_bool(self, value: Any) -> bool:
         return isinstance(value, bool)
 
-    def _validate_auto_increment(self, auto_increment: str) -> None:
+    def _validate_auto_increment(self, auto_increment: str | None) -> None:
         if not self._is_auto_increment_valid(auto_increment):
             raise InvalidAutoIncrement(auto_increment)
 
-    def _is_auto_increment_valid(self, auto_increment: str):
+    def _is_auto_increment_valid(self, auto_increment: str | None):
         return (
             auto_increment is None
             or isinstance(auto_increment, str)
-            and auto_increment.lower() in self._allowed_kinds_of_auto_increment.keys()
+            and auto_increment.lower() in self._allowed_kinds_of_auto_increment
         )
 
     def _validate_nullable(self, nullable: bool) -> None:
