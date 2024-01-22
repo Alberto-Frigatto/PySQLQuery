@@ -1,21 +1,21 @@
 import pytest
-from pysqlquery.constraints.named import primary_key
-from src.pysqlquery.table import Table, Column
+
 from src.pysqlquery.constraints import (
     ForeignKey,
     ForeignKeyConstraint,
     PrimaryKeyConstraint,
-    UniqueConstraint
+    UniqueConstraint,
 )
-from src.pysqlquery.types import Integer, Char, String, Float
+from src.pysqlquery.table import Column, Table
 from src.pysqlquery.table.exceptions.table import (
     InvalidConstraintList,
-    InvalidNamedConstraint,
+    InvalidCreateIfNotExistsValue,
     InvalidName,
+    InvalidNamedConstraint,
     InvalidTestValue,
     MultiplePrimaryKeyConstraints,
-    InvalidCreateIfNotExistsValue
 )
+from src.pysqlquery.types import Char, Float, Integer, String
 
 
 class TestTable:
