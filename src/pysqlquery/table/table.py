@@ -3,6 +3,7 @@ Defines the Table class for constructing SQL tables.
 '''
 
 import re
+from typing import Any
 
 from ..constraints import ForeignKeyConstraint, PrimaryKeyConstraint, UniqueConstraint
 from ..constraints.base.named_constraint import NamedConstraint
@@ -27,7 +28,7 @@ class Table(metaclass=TableMeta):
     '''
 
     __tablename__: str | None = None
-    __constraints__: list[NamedConstraint] = None
+    __constraints__: list[NamedConstraint] | None = None
 
     _tables: list['Table'] = []
 
@@ -125,7 +126,7 @@ class Table(metaclass=TableMeta):
         self._test: bool = test
 
         self._validate_create_if_not_exists(create_if_not_exists)
-        self._create_if_not_exists = create_if_not_exists
+        self._create_if_not_exists: bool = create_if_not_exists
 
         if self.__constraints__ is not None:
             self._validate_named_constraints(self.__constraints__)
@@ -145,8 +146,8 @@ class Table(metaclass=TableMeta):
         if not self._is_bool(test):
             raise InvalidTestValue(self._name, test)
 
-    def _is_bool(self, test: bool) -> bool:
-        return isinstance(test, bool)
+    def _is_bool(self, value: Any) -> bool:
+        return isinstance(value, bool)
 
     def _validate_create_if_not_exists(self, create_if_not_exists: bool) -> None:
         if not self._is_bool(create_if_not_exists):
