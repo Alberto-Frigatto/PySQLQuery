@@ -9,11 +9,11 @@ Whether you're a beginner or an experienced developer, this guide aims to provid
 # Table of contents
 
 - [Class diagram](#class-diagram)
-- [Date types](#date-types)
+- [**Date types**](#date-types)
   - [Date](#date)
   - [DateTime](#datetime)
   - [Time](#time)
-- [Numeric types](#numeric-types)
+- [**Numeric types**](#numeric-types)
   - [Bit](#bit)
   - [Boolean](#boolean)
   - [Decimal](#decimal)
@@ -21,16 +21,22 @@ Whether you're a beginner or an experienced developer, this guide aims to provid
   - [Float](#float)
   - [Integer](#integer)
   - [Real](#real)
-- [Text types](#text-types)
+- [**Text types**](#text-types)
   - [Char](#char)
   - [String](#string)
-- [Abstract classes](#abstract-classes)
+- [**Creating a new data type**](#creating-a-new-data-type)
+  - [Creating a new date type](#creating-a-new-date-type)
+  - [Creating a new decimal type](#creating-a-new-decimal-type)
+  - [Creating a new integer type](#creating-a-new-integer-type)
+  - [Creating a new text type](#creating-a-new-text-type)
+- [**Abstract classes**](#abstract-classes)
   - [SQLDateType](#sqldatetype)
   - [SQLDecimalType](#sqldecimaltype)
   - [SQLIntType](#sqlinttype)
   - [SQLNumType](#sqlnumtype)
   - [SQLTextType](#sqltexttype)
   - [SQLType](#sqltype)
+
 
 ## Class diagram
 
@@ -86,7 +92,7 @@ SQLNumType --|> SQLDecimalType
 
 This class diagram shows the inheritance of the classes.
 
-## Date types
+## **Date types**
 
 ## Date
 
@@ -250,7 +256,7 @@ False
 False
 ```
 
-## Numeric types
+## **Numeric types**
 
 ## Bit
 
@@ -735,7 +741,7 @@ True
 False
 ```
 
-## Text types
+## **Text types**
 
 ## Char
 
@@ -846,6 +852,8 @@ Returns the length of that **VARCHAR** SQL type.
 
 ```python
 >>> str_type = String()
+>>> print(str_type)
+VARCHAR
 >>> str_type.validate_value('abc')
 True
 >>> str_type.validate_value('abcdefghijklmnopqrstuvwxyz')
@@ -853,6 +861,8 @@ True
 >>> str_type.validate_value(10)
 False
 >>> str_type = String(4)
+>>> print(str_type)
+VARCHAR(4)
 >>> str_type.validate_value('ab')
 True
 >>> str_type.validate_value('abcd')
@@ -861,7 +871,220 @@ True
 False
 ```
 
-## Abstract classes
+## **Creating a new data type**
+
+You can create a new data type easily, extending your data type class from [SQLDateType](#sqldatetype) for date data types, [SQLDecimalType](#sqldecimaltype) for decimal number data types, [SQLIntType](#sqlinttype) for integer number data types or [SQLTextType](#sqltexttype) for text data types, and overriding the necessary methods.
+
+### Methods that will must be overridden
+
+- `__init__`
+- `__str__` - for SQL representation
+- `validate_value` - will be used by <a href="./table.md#column">Column</a> class for validate values coming from **DML commands**.
+
+### Examples
+
+### Creating a new date type
+
+```python
+from pysqlquery.types.base import SQLDateType
+
+class NewDateType(SQLDateType):
+    _TYPE_NAME = 'new_type'
+
+    def __init__(self) -> None:
+        DATE_PATTERN = '%Y' # 4-digit year
+        super().__init__(self._TYPE_NAME, DATE_PATTERN)
+
+    def __str__(self) -> str:
+        rendered_value = super().name # 'NEW_TYPE'
+
+        return rendered_value
+
+    def validate_value(self, value: str) -> bool:
+        # Insert the boolean logic to validate
+        # the value according the SQL data type
+        # (True if value is valid)
+```
+
+### Using it
+
+```python
+>>> new_date_type = NewDateType()
+>>> print(new_date_type)
+NEW_TYPE
+>>> new_date_type.validate_value('2024')
+True
+>>> new_date_type.validate_value('abc')
+False
+>>> new_date_type.validate_value(10)
+False
+```
+
+### Creating a new decimal type
+
+```python
+from pysqlquery.types.base import SQLDecimalType
+
+class NewDecimalType(SQLDecimalType):
+    _TYPE_NAME = 'new_type'
+
+    def __init__(self, precision: int | None = None, scale: int | None = None) -> None:
+        super().__init__(self._TYPE_NAME, precision, scale)
+
+    def __str__(self) -> str:
+        rendered_value = super().name # 'NEW_TYPE'
+
+        if super().precision:
+            rendered_value += f'({super().precision}' # 'NEW_TYPE(precision)'
+
+            if super().scale is not None:
+                rendered_value += f', {super().scale}' # 'NEW_TYPE(precision, scale)'
+
+            rendered_value += ')'
+
+        return rendered_value
+
+    def validate_value(self, value: float | int) -> bool:
+        # Insert the boolean logic to validate
+        # the value according the SQL data type
+        # (True if value is valid)
+```
+
+### Using it
+
+```python
+>>> new_decimal_type = NewDecimalType()
+>>> print(new_decimal_type)
+NEW_TYPE
+>>> new_decimal_type.validate_value(40.65)
+True
+>>> new_decimal_type.validate_value(40)
+True
+>>> new_decimal_type.validate_value('abc')
+False
+
+>>> new_decimal_type = NewDecimalType(3)
+>>> print(new_decimal_type)
+NEW_TYPE(3)
+>>> new_decimal_type.validate_value(400)
+True
+>>> new_decimal_type.validate_value(40.6)
+True
+>>> new_decimal_type.validate_value(4000)
+False
+
+>>> new_decimal_type = NewDecimalType(3, 1)
+>>> print(new_decimal_type)
+NEW_TYPE(3, 1)
+>>> new_decimal_type.validate_value(400)
+True
+>>> new_decimal_type.validate_value(40.6)
+True
+>>> new_decimal_type.validate_value(40.65)
+False
+```
+
+### Creating a new integer type
+
+```python
+from pysqlquery.types.base import SQLIntegerType
+
+class NewIntegerType(SQLIntegerType):
+    _TYPE_NAME = 'new_type'
+
+    def __init__(self, precision: int | None = None) -> None:
+        super().__init__(self._TYPE_NAME, precision)
+
+    def __str__(self) -> str:
+        rendered_value = super().name # 'NEW_TYPE'
+
+        if super().precision:
+            rendered_value += f'({super().precision})' # 'NEW_TYPE(precision)'
+
+        return rendered_value
+
+    def validate_value(self, value: int) -> bool:
+        # Insert the boolean logic to validate
+        # the value according the SQL data type
+        # (True if value is valid)
+```
+
+### Using it
+
+```python
+>>> new_integer_type = NewIntegerType()
+>>> print(new_integer_type)
+NEW_TYPE
+>>> new_integer_type.validate_value(40)
+True
+>>> new_integer_type.validate_value(40000000)
+True
+>>> new_integer_type.validate_value(40.65)
+False
+>>> new_integer_type.validate_value('abc')
+False
+
+>>> new_integer_type = NewIntegerType(3)
+>>> print(new_integer_type)
+NEW_TYPE(3)
+>>> new_integer_type.validate_value(400)
+True
+>>> new_integer_type.validate_value(4000)
+False
+>>> new_integer_type.validate_value(40.6)
+False
+```
+
+### Creating a new text type
+
+```python
+from pysqlquery.types.base import SQLTextType
+
+class NewTextType(SQLTextType):
+    _TYPE_NAME = 'new_type'
+
+    def __init__(self, length: int | None = None) -> None:
+        super().__init__(self._TYPE_NAME, length)
+
+    def __str__(self) -> str:
+        rendered_value = super().name # 'NEW_TYPE'
+
+        if super().length:
+            rendered_value += f'({super().length})' # 'NEW_TYPE(length)'
+
+        return rendered_value
+
+    def validate_value(self, value: str) -> bool:
+        # Insert the boolean logic to validate
+        # the value according the SQL data type
+        # (True if value is valid)
+```
+
+### Using it
+
+```python
+>>> new_text_type = NewTextType()
+>>> print(new_text_type)
+NEW_TYPE
+>>> new_text_type.validate_value('abc')
+True
+>>> new_text_type.validate_value('abcdefghijklmnopqrstuvwxyz')
+True
+>>> new_text_type.validate_value(40)
+False
+
+>>> new_text_type = NewTextType(3)
+>>> print(new_text_type)
+NEW_TYPE(3)
+>>> new_text_type.validate_value('ab')
+True
+>>> new_text_type.validate_value('abc')
+True
+>>> new_text_type.validate_value('abcd')
+False
+```
+
+## **Abstract classes**
 
 ## SQLDateType
 
