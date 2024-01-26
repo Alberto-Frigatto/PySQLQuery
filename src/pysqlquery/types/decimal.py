@@ -74,19 +74,19 @@ class Decimal(SQLDecimalType):
 
         Examples
         --------
-        >>> decimal_type = DECIMAL()
+        >>> decimal_type = Decimal()
         >>> decimal_type.validate_value(10)
         True
         >>> decimal_type.validate_value(10.5)
         True
 
-        >>> decimal_type = DECIMAL(2)
+        >>> decimal_type = Decimal(2)
         >>> decimal_type.validate_value(10)
         True
         >>> decimal_type.validate_value(100)
         False
 
-        >>> decimal_type = DECIMAL(3, 1)
+        >>> decimal_type = Decimal(3, 1)
         >>> decimal_type.validate_value(10)
         True
         >>> decimal_type.validate_value(100)
