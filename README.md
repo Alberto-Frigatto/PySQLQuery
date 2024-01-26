@@ -25,7 +25,6 @@
 
 # Table of contents
 
-- [Table of contents](#table-of-contents)
 - [Installation](#installation)
 - [Docs](#docs)
 - [Examples](#examples)
