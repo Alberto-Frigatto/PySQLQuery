@@ -12,7 +12,7 @@ class DateTime(SQLDateType):
     Represents a DATETIME data type in SQL.
 
     This class inherits from `SQLDateType` and provides functionality
-    specific to the DATETIME data type in `yyyy-mm-dd HH-MM-ss` pattern.
+    specific to the DATETIME data type in `yyyy-mm-dd HH:MM:ss` pattern.
     '''
 
     _TYPE_NAME = 'datetime'
