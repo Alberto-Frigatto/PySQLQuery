@@ -35,9 +35,11 @@ class UniqueConstraint(SingleColumnNamedConstraint):
         CONSTRAINT un_table_column UNIQUE (column)
         >>>
         >>> class MyTable(Table):
-        >>> ... my_column = Column(CHAR)
-        >>> ... __constraints__ = [UniqueConstraint('un_my_table_my_column', 'my_column')]
-        >>> ...
+        ...     my_column = Column(CHAR)
+        ...     __constraints__ = [
+        ...         UniqueConstraint('un_my_table_my_column', 'my_column')
+        ...     ]
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.my_column.unique)
         >>> True

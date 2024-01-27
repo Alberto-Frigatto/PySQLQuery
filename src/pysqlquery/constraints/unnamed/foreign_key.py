@@ -54,15 +54,15 @@ class ForeignKey(UnnamedConstraint):
         Examples
         --------
         >>> class MyTable(Table):
-        >>> ... fk_col = Column(Integer, ForeignKey('other_table', 'id'))
-        >>> ...
+        ...     fk_col = Column(Integer, ForeignKey('other_table', 'id'))
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.fk_col.foreign_key)
         >>> FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
         >>>
         >>> class MyTable(Table):
-        >>> ... fk_col = Column(Integer, ForeignKey('other_table', 'id', on_delete='cascade', on_update='no action'))
-        >>> ...
+        ...     fk_col = Column(Integer, ForeignKey('other_table', 'id', on_delete='cascade', on_update='no action'))
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.fk_col.foreign_key)
         >>> FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id) ON DELETE CASCADE ON UPDATE NO ACTION

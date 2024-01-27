@@ -39,9 +39,11 @@ class PrimaryKeyConstraint(MultiColumnNamedConstraint):
         CONSTRAINT pk_table PRIMARY KEY (id_1, id_2)
         >>>
         >>> class MyTable(Table):
-        >>> ... id = Column(Integer)
-        >>> ... __constraints__ = [PrimaryKeyConstraint('pk_my_table', 'id')]
-        >>> ...
+        ...     id = Column(Integer)
+        ...     __constraints__ = [
+        ...         PrimaryKeyConstraint('pk_my_table', 'id')
+        ...     ]
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.id.primary_key)
         >>> True
@@ -50,7 +52,9 @@ class PrimaryKeyConstraint(MultiColumnNamedConstraint):
         super().__init__(name, column)
 
     def __str__(self) -> str:
-        pk_repr = (f'CONSTRAINT {super().name} PRIMARY KEY '
-                    f'({super().column if isinstance(super().column, str) else ", ".join(super().column)})')
+        pk_repr = (
+            f'CONSTRAINT {super().name} PRIMARY KEY '
+            f'({super().column if isinstance(super().column, str) else ", ".join(super().column)})'
+        )
 
         return pk_repr

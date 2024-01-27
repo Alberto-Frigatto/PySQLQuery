@@ -62,22 +62,46 @@ class ForeignKeyConstraint(MultiColumnNamedConstraint):
 
         Examples
         --------
-        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', 'fk_col', 'other_table', 'id')
+        >>> fk_const = ForeignKeyConstraint(
+        ...     'fk_table_other_table',
+        ...     'fk_col',
+        ...     'other_table',
+        ...     'id'
+        ... )
         >>> print(fk_const)
         CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
         >>>
-        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', 'fk_col', 'other_table', 'id', on_delete='cascade', on_update='no action')
+        >>> fk_const = ForeignKeyConstraint(
+        ...     'fk_table_other_table',
+        ...     'fk_col',
+        ...     'other_table',
+        ...     'id',
+        ...     on_delete='cascade',
+        ...     on_update='no action'
+        ... )
         >>> print(fk_const)
         CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id) ON DELETE CASCADE ON UPDATE NO ACTION
         >>>
-        >>> fk_const = ForeignKeyConstraint('fk_table_other_table', ['fk_col_1', 'fk_col_2'], 'other_table', ['id_1', 'id_2'])
+        >>> fk_const = ForeignKeyConstraint(
+        ...     'fk_table_other_table',
+        ...     ['fk_col_1', 'fk_col_2'],
+        ...     'other_table',
+        ...     ['id_1', 'id_2']
+        ... )
         >>> print(fk_const)
         CONSTRAINT fk_table_other_table FOREIGN KEY (fk_col_1, fk_col_2) REFERENCES OTHER_TABLE(id_1, id_2)
         >>>
         >>> class MyTable(Table):
-        >>> ... fk_col = Column(Integer)
-        >>> ... __constraints__ = [ForeignKeyConstraint('fk_my_table_other_table', 'fk_col', 'other_table', 'id')]
-        >>> ...
+        ...     fk_col = Column(Integer)
+        ...     __constraints__ = [
+        ...         ForeignKeyConstraint(
+        ...             'fk_my_table_other_table',
+        ...             'fk_col',
+        ...             'other_table',
+        ...             'id'
+        ...         )
+        ...     ]
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.id.foreign_key)
         >>> CONSTRAINT fk_my_table_other_table FOREIGN KEY (fk_col) REFERENCES OTHER_TABLE(id)
