@@ -67,8 +67,8 @@ class Column:
         A simple column:
 
         >>> class MyTable(Table):
-        >>> ... col = Column(Integer)
-        >>> ...
+        ...     col = Column(Integer)
+        ...
         >>> my_table = MyTable()
         >>> print(my_table.col)
         col INTEGER NOT NULL
@@ -76,16 +76,16 @@ class Column:
         Columns with some modifiers:
 
         >>> class TbProducts(Table):
-        >>> ... id = Column(Integer(6), primary_key=True, auto_incremente='mysql')
-        >>> ... name = Column(String(50), unique=True)
-        >>> ... price = Column(Float(7, 2), default=1)
+        ...     id = Column(Integer(6), primary_key=True, auto_incremente='mysql')
+        ...     name = Column(String(50), unique=True)
+        ...     price = Column(Float(7, 2), default=1)
 
         When `NamedConstraint` is passed for table, it can modifying this column.
 
         >>> class MyTable(Table):
-        >>> ... un_col = Column(Char(10))
-        >>> ... __constraints__ = [UniqueConstraint('un_my_table_un_col', 'un_col')]
-        >>> ...
+        ...     un_col = Column(Char(10))
+        ...     __constraints__ = [UniqueConstraint('un_my_table_un_col', 'un_col')]
+        ...
         >>> my_table = MyTable()
         >>> my_table.un_col.unique
         True

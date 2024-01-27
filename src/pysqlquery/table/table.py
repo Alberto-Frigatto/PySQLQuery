@@ -50,9 +50,9 @@ class Table(metaclass=TableMeta):
         Constructing a table class:
 
         >>> class MyTable(Table):
-        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
-        >>> ... name = Column(String(50))
-        >>> ...
+        ...     id = Column(Integer, primary_key=True, auto_increment='mysql')
+        ...     name = Column(String(50))
+        ...
         >>> my_table = MyTable()
         >>> print(my_table)
         CREATE TABLE MYTABLE (
@@ -65,10 +65,10 @@ class Table(metaclass=TableMeta):
         Defining a custom name:
 
         >>> class MyTable(Table):
-        >>> ... __tablename__ = 'tb_customer'
-        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
-        >>> ... name = Column(String(50))
-        >>> ...
+        ...     __tablename__ = 'tb_customer'
+        ...     id = Column(Integer, primary_key=True, auto_increment='mysql')
+        ...     name = Column(String(50))
+        ...
         >>> my_table = MyTable()
         >>> print(my_table)
         CREATE TABLE TB_CUSTOMER (
@@ -81,11 +81,13 @@ class Table(metaclass=TableMeta):
         Defining named constraints:
 
         >>> class MyTable(Table):
-        >>> ... __tablename__ = 'tb_customer'
-        >>> ... id = Column(Integer, auto_increment='mysql')
-        >>> ... name = Column(String(50))
-        >>> ... __constraints__ = [PrimaryKeyConstraint('pk_tb_customer', 'id')]
-        >>> ...
+        ...     __tablename__ = 'tb_customer'
+        ...     id = Column(Integer, auto_increment='mysql')
+        ...     name = Column(String(50))
+        ...     __constraints__ = [
+        ...         PrimaryKeyConstraint('pk_tb_customer', 'id')
+        ...     ]
+        ...
         >>> my_table = MyTable()
         >>> print(my_table)
         CREATE TABLE TB_CUSTOMER (
@@ -99,10 +101,10 @@ class Table(metaclass=TableMeta):
         Adding IF NOT EXISTS clause:
 
         >>> class MyTable(Table):
-        >>> ... __tablename__ = 'tb_customer'
-        >>> ... id = Column(Integer, primary_key=True, auto_increment='mysql')
-        >>> ... name = Column(String(50))
-        >>> ...
+        ...     __tablename__ = 'tb_customer'
+        ...     id = Column(Integer, primary_key=True, auto_increment='mysql')
+        ...     name = Column(String(50))
+        ...
         >>> my_table = MyTable(create_if_not_exists=True)
         >>> print(my_table)
         CREATE TABLE IF NOT EXISTS TB_CUSTOMER (
