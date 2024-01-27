@@ -8,7 +8,7 @@ Whether you're a beginner or an experienced developer, this guide aims to provid
 
 # Table of contents
 
-- [Class diagram](#class-diagram)
+- [**Class diagram**](#class-diagram)
 - [**Date types**](#date-types)
   - [Date](#date)
   - [DateTime](#datetime)
@@ -38,7 +38,7 @@ Whether you're a beginner or an experienced developer, this guide aims to provid
   - [SQLType](#sqltype)
 
 
-## Class diagram
+## **Class diagram**
 
 ```mermaid
 classDiagram
@@ -112,7 +112,7 @@ Constructs a `Date` instance representing the **DATE** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: str) -> bool`
 
@@ -166,7 +166,7 @@ Constructs a `DateTime` instance representing the **DATETIME** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: str) -> bool`
 
@@ -220,7 +220,7 @@ Constructs a `Time` instance representing the **TIME** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: str) -> bool`
 
@@ -268,7 +268,7 @@ This class is in `pysqlquery.types` package.
 
 ### Methods
 
-#### `__init__()` -> None`
+#### `__init__() -> None`
 
 Constructs a `Bit` instance representing the **BIT** data type.
 
@@ -276,7 +276,7 @@ Constructs a `Bit` instance representing the **BIT** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: bool | int) -> bool`
 Validates if the passed value is valid for the **BIT** SQL type.
@@ -325,7 +325,7 @@ This class is in `pysqlquery.types` package.
 
 ### Methods
 
-#### `__init__()` -> None`
+#### `__init__() -> None`
 
 Constructs a `Boolean` instance representing the **BOOLEAN** data type.
 
@@ -333,7 +333,7 @@ Constructs a `Boolean` instance representing the **BOOLEAN** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: bool) -> bool`
 Validates if the passed value is valid for the **BOOLEAN** SQL type.
@@ -391,7 +391,7 @@ Constructs a `Decimal` instance representing the **DECIMAL** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: float | int) -> bool`
 Validates if the passed value is valid for the **DECIMAL** SQL type.
@@ -469,7 +469,7 @@ Constructs a `Double` instance representing the **DOUBLE** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: float | int) -> bool`
 Validates if the passed value is valid for the **DOUBLE** SQL type.
@@ -547,7 +547,7 @@ Constructs a `Float` instance representing the **FLOAT** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: float | int) -> bool`
 Validates if the passed value is valid for the **FLOAT** SQL type.
@@ -612,7 +612,7 @@ This class is in `pysqlquery.types` package.
 
 ### Methods
 
-#### `__init__()` -> None`
+#### `__init__() -> None`
 
 Constructs a `Integer` instance representing the **INTEGER** data type.
 
@@ -620,7 +620,7 @@ Constructs a `Integer` instance representing the **INTEGER** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: int) -> bool`
 Validates if the passed value is valid for the **INTEGER** SQL type.
@@ -686,7 +686,7 @@ Constructs a `Real` instance representing the **REAL** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: float | int) -> bool`
 Validates if the passed value is valid for the **REAL** SQL type.
@@ -765,7 +765,7 @@ Constructs a `Char` instance representing the **CHAR** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: str) -> bool`
 
@@ -828,7 +828,7 @@ Constructs a `String` instance representing the **VARCHAR** data type.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 #### `validate_value(value: str) -> bool`
 
@@ -1221,7 +1221,7 @@ This class is in `pysqlquery.types.base` package.
 
 Returns a string representation of the class instance in SQL format.
 
-The returned string will be used for constructing the SQL queries.
+The returned string will be used for constructing the **SQL queries**.
 
 It's an abstract method, **the concrete subclasses must implement it**.
 
