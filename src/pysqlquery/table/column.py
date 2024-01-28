@@ -104,7 +104,7 @@ class Column:
             'mssql': 'IDENTITY(1, 1)',
             'mysql': 'AUTO_INCREMENT',
             'sqlite': 'AUTO INCREMENT',
-            'postgree': 'SERIAL',
+            'postgre': 'SERIAL',
         }
 
         self._validate_auto_increment(auto_increment)
