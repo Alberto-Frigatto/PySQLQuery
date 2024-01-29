@@ -612,9 +612,13 @@ This class is in `pysqlquery.types` package.
 
 ### Methods
 
-#### `__init__() -> None`
+#### `__init__(precision: int | None = None) -> None`
 
 Constructs a `Integer` instance representing the **INTEGER** data type.
+
+**Parameters**
+
+- `precision : int | None` - The precision of **INTEGER** type.
 
 #### `__str__ -> str`
 
