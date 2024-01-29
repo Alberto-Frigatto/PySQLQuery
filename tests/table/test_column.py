@@ -1,4 +1,11 @@
 import pytest
+
+from src.pysqlquery.constraints import (
+    ForeignKey,
+    ForeignKeyConstraint,
+    PrimaryKeyConstraint,
+    UniqueConstraint,
+)
 from src.pysqlquery.table import Column, Table
 from src.pysqlquery.table.exceptions.column import (
     ColumnAlreadyHasNamedForeignKeyConstraint,
@@ -9,19 +16,15 @@ from src.pysqlquery.table.exceptions.column import (
     InvalidNullable,
     InvalidPrimaryKey,
     InvalidSQLType,
-    InvalidUnique
+    InvalidUnique,
 )
-from src.pysqlquery.types import Integer, Float, String, Char
-from src.pysqlquery.constraints import (
-    ForeignKey,
-    ForeignKeyConstraint,
-    PrimaryKeyConstraint,
-    UniqueConstraint
-)
+from src.pysqlquery.types import Char, Float, Integer, String
 
 
 class TestColumn:
-    def test_quando_coluna_preco_recebe_data_type_Float_7_2_retorna_preco_FLOAT_7_2_NOT_NULL(self) -> None:
+    def test_quando_coluna_preco_recebe_data_type_Float_7_2_retorna_preco_FLOAT_7_2_NOT_NULL(
+        self,
+    ) -> None:
         class Tabela(Table):
             preco = Column(Float(7, 2))
 
@@ -31,7 +34,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_preco_recebe_data_type_Float_7_2_e_nullable_True_retorna_preco_FLOAT_7_2(self) -> None:
+    def test_quando_coluna_preco_recebe_data_type_Float_7_2_e_nullable_True_retorna_preco_FLOAT_7_2(
+        self,
+    ) -> None:
         class Tabela(Table):
             preco = Column(Float(7, 2), nullable=True)
 
@@ -41,7 +46,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_email_recebe_data_type_String_255_e_unique_True_retorna_email_VARCHAR_255_NOT_NULL_UNIQUE(self) -> None:
+    def test_quando_coluna_email_recebe_data_type_String_255_e_unique_True_retorna_email_VARCHAR_255_NOT_NULL_UNIQUE(
+        self,
+    ) -> None:
         class Tabela(Table):
             email = Column(String(255), unique=True)
 
@@ -51,7 +58,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_saldo_recebe_data_type_Float_7_2_e_default_0_retorna_saldo_Float_7_2_DEFAULT_0(self) -> None:
+    def test_quando_coluna_saldo_recebe_data_type_Float_7_2_e_default_0_retorna_saldo_Float_7_2_DEFAULT_0(
+        self,
+    ) -> None:
         class Tabela(Table):
             saldo = Column(Float(7, 2), default=0)
 
@@ -61,7 +70,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_mssql_retorna_contagem_INTEGER_IDENTITY_1_1(self) -> None:
+    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_mssql_retorna_contagem_INTEGER_IDENTITY_1_1(
+        self,
+    ) -> None:
         class Tabela(Table):
             contagem = Column(Integer, auto_increment='mssql')
 
@@ -71,7 +82,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_mysql_retorna_contagem_INTEGER_AUTO_INCREMENT(self) -> None:
+    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_mysql_retorna_contagem_INTEGER_AUTO_INCREMENT(
+        self,
+    ) -> None:
         class Tabela(Table):
             contagem = Column(Integer, auto_increment='mysql')
 
@@ -81,7 +94,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_sqlite_retorna_contagem_INTEGER_AUTO_INCREMENT(self) -> None:
+    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_sqlite_retorna_contagem_INTEGER_AUTO_INCREMENT(
+        self,
+    ) -> None:
         class Tabela(Table):
             contagem = Column(Integer, auto_increment='sqlite')
 
@@ -91,9 +106,11 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_postgree_retorna_contagem_INTEGER_AUTO_INCREMENT(self) -> None:
+    def test_quando_coluna_contagem_recebe_data_type_Integer_e_auto_increment_postgree_retorna_contagem_INTEGER_SERIAL(
+        self,
+    ) -> None:
         class Tabela(Table):
-            contagem = Column(Integer, auto_increment='postgree')
+            contagem = Column(Integer, auto_increment='postgre')
 
         entry = Tabela(test=True).contagem
         result = str(entry)
@@ -101,7 +118,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_id_recebe_data_type_Integer_e_primary_key_True_retorna_id_INTEGER_NOT_NULL(self) -> None:
+    def test_quando_coluna_id_recebe_data_type_Integer_e_primary_key_True_retorna_id_INTEGER_NOT_NULL(
+        self,
+    ) -> None:
         class Tabela(Table):
             id = Column(Integer, primary_key=True)
 
@@ -111,7 +130,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_fk_col_recebe_ForeignKey_e_acessamos_a_property_foreign_keys_retorna_repr(self) -> None:
+    def test_quando_coluna_fk_col_recebe_ForeignKey_e_acessamos_a_property_foreign_keys_retorna_repr(
+        self,
+    ) -> None:
         class Tabela(Table):
             fk_col = Column(Integer, ForeignKey('other_table', 'id'))
 
@@ -121,7 +142,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_tabela_recebe_6_colunas_com_unnamed_constraints_elas_retornam_informacoes(self) -> None:
+    def test_quando_tabela_recebe_6_colunas_com_unnamed_constraints_elas_retornam_informacoes(
+        self,
+    ) -> None:
         class Tabela(Table):
             id = Column(Integer, primary_key=True, auto_increment='mysql')
             nome = Column(String(50))
@@ -194,7 +217,9 @@ class TestColumn:
         assert entry.id_setor.foreign_key is not None
         assert isinstance(entry.id_setor.foreign_key, ForeignKey)
 
-    def test_quando_tabela_recebe_6_colunas_com_named_constraints_elas_retornam_informacoes(self) -> None:
+    def test_quando_tabela_recebe_6_colunas_com_named_constraints_elas_retornam_informacoes(
+        self,
+    ) -> None:
         class Tabela(Table):
             id = Column(Integer, auto_increment='mysql')
             nome = Column(String(50))
@@ -206,7 +231,7 @@ class TestColumn:
             __constraints__ = [
                 PrimaryKeyConstraint('pk_tabela', 'id'),
                 UniqueConstraint('un_tabela_cpf', 'cpf'),
-                ForeignKeyConstraint('fk_tabela_setor', 'id_setor', 't_setor', 'id')
+                ForeignKeyConstraint('fk_tabela_setor', 'id_setor', 't_setor', 'id'),
             ]
 
         entry = Tabela(test=True)
@@ -329,29 +354,41 @@ class TestColumn:
         with pytest.raises(InvalidUnique):
             Column(Integer, unique='aaa')
 
-    def test_quando_data_type_recebe_Integer_2_e_default_recebe_123_int_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Integer_2_e_default_recebe_123_int_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
             Column(Integer(2), default=123)
 
-    def test_quando_data_type_recebe_Integer_2_e_default_recebe_12_float_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Integer_2_e_default_recebe_12_float_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
-            Column(Integer(2), default=12.)
+            Column(Integer(2), default=12.0)
 
-    def test_quando_data_type_recebe_Integer_2_e_default_recebe_aaa_str_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Integer_2_e_default_recebe_aaa_str_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
             Column(Integer(2), default='aaa')
 
-    def test_quando_data_type_recebe_Char_2_e_default_recebe_aaa_str_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Char_2_e_default_recebe_aaa_str_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
             Column(Char(2), default='aaa')
 
-    def test_quando_data_type_recebe_Char_2_e_default_recebe_123_int_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Char_2_e_default_recebe_123_int_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
             Column(Char(2), default=123)
 
-    def test_quando_data_type_recebe_Char_2_e_default_recebe_12_float_lanca_InvalidDefaultValue(self) -> None:
+    def test_quando_data_type_recebe_Char_2_e_default_recebe_12_float_lanca_InvalidDefaultValue(
+        self,
+    ) -> None:
         with pytest.raises(InvalidDefaultValue):
-            Column(Char(2), default=12.)
+            Column(Char(2), default=12.0)
 
     def test_quando_foreign_key_recebe_123_lanca_InvalidForeignKey(self) -> None:
         with pytest.raises(InvalidForeignKey):
@@ -361,37 +398,41 @@ class TestColumn:
         with pytest.raises(InvalidForeignKey):
             Column(Integer, 'aaa')
 
-    def test_quando_tabela_recebe_2_ForeignKeyConstraint_para_mesma_coluna_lanca_ColumnAlreadyHasNamedForeignKeyConstraint(self) -> None:
+    def test_quando_tabela_recebe_2_ForeignKeyConstraint_para_mesma_coluna_lanca_ColumnAlreadyHasNamedForeignKeyConstraint(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer)
 
             __constraints__ = [
                 ForeignKeyConstraint('fk_const_1', 'col', 'tabela', 'id'),
-                ForeignKeyConstraint('fk_const_2', 'col', 'tabela', 'id')
+                ForeignKeyConstraint('fk_const_2', 'col', 'tabela', 'id'),
             ]
 
         with pytest.raises(ColumnAlreadyHasNamedForeignKeyConstraint):
             Tabela(test=True)
 
-    def test_quando_tabela_recebe_2_UniqueConstraint_para_mesma_coluna_lanca_ColumnAlreadyHasNamedUniqueConstraint(self) -> None:
+    def test_quando_tabela_recebe_2_UniqueConstraint_para_mesma_coluna_lanca_ColumnAlreadyHasNamedUniqueConstraint(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer)
 
             __constraints__ = [
                 UniqueConstraint('un_const_1', 'col'),
-                UniqueConstraint('un_const_2', 'col')
+                UniqueConstraint('un_const_2', 'col'),
             ]
 
         with pytest.raises(ColumnAlreadyHasNamedUniqueConstraint):
             Tabela(test=True)
 
-    def test_quando_coluna_recebe_uma_PrimaryKeyConstraint_na_tabela_e_acessamos_is_primary_key_named_retorna_True(self) -> None:
+    def test_quando_coluna_recebe_uma_PrimaryKeyConstraint_na_tabela_e_acessamos_is_primary_key_named_retorna_True(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer)
 
-            __constraints__ = [
-                PrimaryKeyConstraint('pk_tabela', 'col')
-            ]
+            __constraints__ = [PrimaryKeyConstraint('pk_tabela', 'col')]
 
         entry = Tabela(test=True).col
         result = entry.is_primary_key_named()
@@ -399,7 +440,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_recebe_primary_key_True_e_acessamos_is_primary_key_named_retorna_False(self) -> None:
+    def test_quando_coluna_recebe_primary_key_True_e_acessamos_is_primary_key_named_retorna_False(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer, primary_key=True)
 
@@ -409,7 +452,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_recebe_uma_ForeignKeyConstraint_na_tabela_e_acessamos_is_foreign_key_named_retorna_True(self) -> None:
+    def test_quando_coluna_recebe_uma_ForeignKeyConstraint_na_tabela_e_acessamos_is_foreign_key_named_retorna_True(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer)
 
@@ -423,7 +468,9 @@ class TestColumn:
 
         assert result == expected
 
-    def test_quando_coluna_recebe_ForeignKey_e_acessamos_is_foreign_key_named_retorna_False(self) -> None:
+    def test_quando_coluna_recebe_ForeignKey_e_acessamos_is_foreign_key_named_retorna_False(
+        self,
+    ) -> None:
         class Tabela(Table):
             col = Column(Integer, ForeignKey('outra_tabela', 'id'))
 
