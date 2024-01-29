@@ -6,7 +6,7 @@ Below, you'll discover detailed explanations of essential and abstract **SQL con
 
 Whether you're a beginner or an experienced developer, this guide aims to provide clarity and guidance.
 
-# Table  of contents
+# Table of contents
 
 - [**Class diagram**](#class-diagram)
 - [**Unnamed constraints**](#unnamed-constraints)
@@ -74,7 +74,7 @@ This class is in `pysqlquery.constraints` package.
 
 ### Methods
 
-#### `__init__(ref_table: str, ref_column: str, *, on_delete: str | None, on_update: str | None) -> None`
+#### `__init__(ref_table: str, ref_column: str, *, on_delete: str | None = None, on_update: str | None = None) -> None`
 
 Constructs a `ForeignKey` instance representing the **unnamed FOREIGN KEY** constraint.
 
@@ -158,7 +158,7 @@ This class is in `pysqlquery.constraints` package.
 
 ### Methods
 
-#### `__init__(ref_table: str, ref_column: str, *, on_delete: str | None, on_update: str | None) -> None`
+#### `__init__(name: str, ref_table: str, ref_column: str, *, on_delete: str | None = None, on_update: str | None = None) -> None`
 
 Constructs a `ForeignKeyConstraint` instance representing the **named FOREIGN KEY** constraint.
 
@@ -300,7 +300,7 @@ This class is in `pysqlquery.constraints` package.
 
 ### Methods
 
-#### `__init__(self, name: str, column: str | list[str]) -> None`
+#### `__init__(name: str, column: str | list[str]) -> None`
 
 Constructs a `PrimaryKeyConstraint` instance representing the **named PRIMARY KEY** constraint.
 
@@ -380,7 +380,7 @@ This class is in `pysqlquery.constraints` package.
 
 ### Methods
 
-#### `__init__(self, name: str, column: str) -> None`
+#### `__init__(name: str, column: str) -> None`
 
 Constructs a `PrimaryKeyConstraint` instance representing the **named UNIQUE** constraint.
 
