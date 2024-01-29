@@ -258,4 +258,3 @@ PySQLQuery is heavily inspired in [SQLAlchemy](https://github.com/sqlalchemy/sql
 # License
 
 [MIT](./LICENSE.md) - Alberto Frigatto, 2023
->>>>>>> v1.0.0
