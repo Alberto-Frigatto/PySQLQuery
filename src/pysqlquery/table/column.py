@@ -76,7 +76,7 @@ class Column:
         Columns with some modifiers:
 
         >>> class TbProducts(Table):
-        ...     id = Column(Integer(6), primary_key=True, auto_incremente='mysql')
+        ...     id = Column(Integer(6), primary_key=True, auto_increment='mysql')
         ...     name = Column(String(50), unique=True)
         ...     price = Column(Float(7, 2), default=1)
 
