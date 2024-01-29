@@ -8,7 +8,7 @@ Whether you are a beginner or an experienced developer, this guide offers **deta
 
 - <a href="./sql_types.md">SQL data types</a>
 - <a href="./constraints.md">SQL constraints</a>
-- <a href="./table.md">SQL Table and column</a>
+- <a href="./table.md">SQL table and column</a>
 - [Project Structure](#project-structure)
 - Class diagrams
   - <a href="../pdf/constraints.pdf">Constraints</a>
